@@ -1,0 +1,89 @@
+/* reset.css */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-weight: normal;
+  word-break: break-all;
+}
+
+* {
+  -webkit-overflow-scrolling: touch;
+}
+
+*::before,
+*::after {
+  display: block;
+} 
+
+ol,
+ul {
+  list-style: none inside;
+}
+
+a {
+  display: block;
+  font: inherit;
+  text-decoration: none;
+}
+
+address {
+  font: inherit;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+input,
+textarea,
+select,
+option,
+button {
+  border: none;
+  font: inherit;
+  background: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+}
+
+button,
+input[type="submit"],
+select {
+  cursor: pointer;
+}
+
+/* base style */
+html,
+body {
+  color: #212121;
+  font-size: 10px;
+  font-family: "Hiragino Kaku Gothic Pro", "YuGothic", "Meiryo UI", "メイリオ", sans-serif;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+*,
+*::before,
+*::after {
+  line-height: 1.5;
+  font-size: 1.6rem;
+}
+
+span {
+  font: inherit;
+}
+
+form {
+  width: 100%;
+}
+
+img {
+  display: block;
+}
