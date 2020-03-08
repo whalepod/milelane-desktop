@@ -1,10 +1,7 @@
-import axios from 'axios'
+import client from '@/modules/api/client'
 
-// TODO: should be replaced with env value.
-const baseUrl = 'http://localhost:8089/'
-
-const create = (deviceId, deviceType) => axios.post(`${baseUrl}device/create`, {
-  device_id: deviceId,
+const create = (deviceToken, deviceType) => client({}, false).post('/device/create', {
+  device_token: deviceToken,
   device_type: deviceType
 })
 

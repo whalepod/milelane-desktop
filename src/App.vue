@@ -13,9 +13,10 @@ export default {
   },
   methods: {
     async initDevice () {
-      if (this.$store.state.device.deviceId === null) {
-        await this.$store.dispatch('setDeviceId', uuidv4())
-        deviceAPI.create(this.$store.state.device.deviceId, 'desktop')
+      if (this.$store.state.device.deviceUuid === null) {
+        await this.$store.dispatch('setDeviceToken', uuidv4())
+        const result = await deviceAPI.create(this.$store.state.device.deviceToken, 'desktop')
+        this.$store.dispatch('setDeviceUuid', result.data.uuid)
       }
     }
   }
