@@ -1,7 +1,7 @@
 import taskAPI from '@/modules/api/task.js'
 
 const execute = async (text) => {
-  const commandName = this.getCommandName(text)
+  const commandName = getCommandName(text)
 
   if (commandName === false) {
     return false
@@ -9,20 +9,19 @@ const execute = async (text) => {
 
   switch (commandName) {
     case 'add':
-      await this.callAdd(text)
+      await callAdd(text)
       break
     case 'move':
-      await this.callMove(text)
+      await callMove(text)
       break
     case 'done':
-      this.callDone(text)
       break
     case 'lanize':
-      await this.callLanize(text)
+      await callLanize(text)
       break
     case 'focus':
       // focus対象の値を呼び出し元で使うため、returnする
-      return this.callFocus(text)
+      return callFocus(text)
     case 'unfocus':
       // unfocusはAPI呼び出しを伴わないので現時点では処理なし
       break
@@ -44,7 +43,8 @@ const callAdd = async (text) => {
   const title = matchedObject[2]
   const targetId = matchedObject[3]
 
-  const task = await taskAPI.create(title)
+  const result = await taskAPI.create(title)
+  const task = result.data
   await taskAPI.moveToChild(task.id, targetId)
 }
 
