@@ -2,7 +2,6 @@
   <section class="root">
     <the-header />
     <task-list
-      :tasks="tasks"
       @emit-fetch-tasks="handleLoadTasks"
     />
     <task-input @emit-fetch-tasks="handleLoadTasks" />
@@ -10,7 +9,7 @@
 </template>
 
 <script>
-import taskAPI from '@/modules/api/task.js'
+import { mapActions } from 'vuex'
 import TheHeader from '@/components/TheHeader'
 import TaskList from '@/components/task/TaskList'
 import TaskInput from '@/components/task/TaskInput'
@@ -22,27 +21,12 @@ export default {
     TaskInput
   },
   created () {
-    this.handleLoadTasks()
-  },
-  data () {
-    return {
-      tasks: []
-    }
+    this.initTasks()
   },
   methods: {
+    ...mapActions('task', ['initTasks']),
     handleLoadTasks () {
-      this.fetchTasks()
-        .catch(e => console.log(e.message))
-    },
-    async fetchTasks () {
-      if (this.$store.state.task.focusTargetId !== null) {
-        const result = await taskAPI.get(this.$store.state.task.focusTargetId)
-        // 一つだけのデータが返ってくるので、TaskListのフォーマットに揃えて配列化する
-        this.tasks = [result.data]
-      } else {
-        const result = await taskAPI.fetch()
-        this.tasks = result.data
-      }
+      this.initTasks()
     }
   }
 }
