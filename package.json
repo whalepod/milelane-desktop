@@ -1,6 +1,12 @@
 {
   "name": "milelane",
   "version": "0.1.0",
+  "author": "Masashi Fujiike (https://github.com/MasashiFujiike/)",
+  "description": "A treeable task manager.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/whalepod/milelane-desktop.git"
+  },
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
