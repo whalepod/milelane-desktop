@@ -11,7 +11,11 @@ module.exports = {
           gatekeeperAssess: false,
           entitlements: "config/notarization/entitlements.mac.plist",
           entitlementsInherit: "config/notarization/entitlements.mac.plist"
-        }
+        },
+        dmg: {
+          sign: false
+        },
+        afterSign: "scripts/notarize.js"
       }
     }
   }
