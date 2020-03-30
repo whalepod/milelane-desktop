@@ -1,6 +1,6 @@
 {
   "name": "milelane",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Masashi Fujiike (https://github.com/MasashiFujiike/)",
   "description": "A treeable task manager.",
   "repository": {
@@ -16,6 +16,7 @@
     "electron:build": "vue-cli-service electron:build",
     "electron:serve": "vue-cli-service electron:serve",
     "electron:generate-icons": "electron-icon-builder --input=./public/icon.png --output=build --flatten",
+    "electron:notarization-history": "xcrun altool --notarization-history 0 -u $APPLE_ID -p $APPLE_APP_SPECIFIC_PASSWORD",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps"
   },
