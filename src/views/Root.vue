@@ -24,7 +24,7 @@ export default {
     this.initTasks()
   },
   methods: {
-    ...mapActions('task', ['initTasks']),
+    ...mapActions('tasks', ['initTasks']),
     handleLoadTasks () {
       this.initTasks()
     }

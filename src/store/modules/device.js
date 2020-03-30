@@ -1,17 +1,13 @@
 import mutations from '@/store/modules/device/mutations'
 import actions from '@/store/modules/device/actions'
+import getters from '@/store/modules/device/getters'
 
 const state = {
   isInitialized: false,
   isSubmitting: false,
-  errors: {},
+  errors: [],
   deviceToken: null,
   deviceUuid: null
-}
-
-const getters = {
-  deviceToken: ({ deviceToken }) => deviceToken,
-  deviceUuid: ({ deviceUuid }) => deviceUuid
 }
 
 export default {

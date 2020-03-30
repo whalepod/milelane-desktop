@@ -9,9 +9,12 @@ export default {
     state.isSubmitting = false
     state.isInitialized = true
     state.deviceUuid = deviceUuid
+    state.errors = []
   },
-  [types.FAILURE_CREATE_DEVICE] (state, errors = {}) {
-    state.errors = errors
+  [types.FAILURE_CREATE_DEVICE] (state, error) {
     state.isSubmitting = false
+    if (error) {
+      state.errors.push(error)
+    }
   }
 }

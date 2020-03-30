@@ -21,7 +21,7 @@ import TaskItem from '@/components/task/TaskItem'
 export default {
   components: { TaskItem },
   computed: {
-    ...mapGetters('task', ['tasks']),
+    ...mapGetters('tasks', ['tasks']),
     hasTasks () {
       return this.freshTasks.length !== 0
     },
