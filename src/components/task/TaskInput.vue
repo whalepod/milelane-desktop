@@ -18,6 +18,7 @@
   </div>
 </template>
 <script>
+import { mapActions } from 'vuex'
 import commandHandler from '@/modules/command/commandHandler.js'
 import taskAPI from '@/modules/api/task.js'
 
@@ -28,6 +29,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions('tasks', ['initTasks', 'focus', 'unfocus']),
     async handleSubmitTask (event) {
       // If enter from IME conversion, skip handling enter.
       if (!this.canSubmit) {
@@ -42,21 +44,21 @@ export default {
         switch (commandName) {
           case 'focus': {
             const targetId = await commandHandler.execute(inputText)
-            await this.$store.dispatch('setFocusTarget', targetId)
+            await this.focus({ id: targetId })
             break
           }
           case 'unfocus':
-            await this.$store.dispatch('unsetFocusTarget')
+            await this.unfocus()
             break
           default:
             await commandHandler.execute(inputText)
         }
       } else {
         await taskAPI.create(inputText)
+        this.initTasks()
       }
 
-      // 処理完了時にはトドのデータを更新し、テキストボックスを空欄にする。
-      this.$emit('emit-fetch-tasks')
+      // 処理完了時にはテキストボックスを空欄にする。
       event.target.value = ''
     },
     enableSubmitTask () {

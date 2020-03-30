@@ -1,4 +1,4 @@
-import * as types from '@/store/modules/task/mutationTypes'
+import * as types from '@/store/modules/tasks/mutationTypes'
 import API from '@/modules/api/task'
 
 export default {
@@ -34,8 +34,8 @@ export default {
     }
     // TODO: handle if errors found.
   },
-  async unfocus ({ commit, getters }, { id }) {
-    await this.fetchTasks({ commit }, { id })
+  async unfocus ({ dispatch, commit, getters }) {
+    await dispatch('fetchTasks')
     if (!getters.errors) {
       commit(types.UNSET_FOCUS_TARGET_ID)
     }

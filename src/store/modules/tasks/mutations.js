@@ -1,4 +1,4 @@
-import * as types from '@/store/modules/task/mutationTypes'
+import * as types from '@/store/modules/tasks/mutationTypes'
 
 export default {
   [types.REQUEST_FETCH_TASKS] (state) {

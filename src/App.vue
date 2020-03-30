@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 export default {
   mounted () {
-    this.createDeviceIfNeeded(uuidv4())
+    this.createDeviceIfNeeded({ deviceToken: uuidv4() })
   },
   methods: {
     ...mapActions('device', ['createDeviceIfNeeded'])
