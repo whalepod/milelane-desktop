@@ -14,18 +14,14 @@
   </section>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 import moment from 'moment'
 import TaskItem from '@/components/task/TaskItem'
 
 export default {
-  props: {
-    tasks: {
-      type: Array,
-      required: true
-    }
-  },
   components: { TaskItem },
   computed: {
+    ...mapGetters('tasks', ['tasks']),
     hasTasks () {
       return this.freshTasks.length !== 0
     },

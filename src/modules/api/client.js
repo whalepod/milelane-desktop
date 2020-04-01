@@ -1,7 +1,6 @@
 import axios from 'axios'
+import env from '@/config/env'
 import store from '@/store/index'
-
-const baseUrl = 'http://localhost:8089/'
 
 const client = (options, shouldAuth = true) => {
   const headers = {
@@ -13,7 +12,7 @@ const client = (options, shouldAuth = true) => {
   }
 
   const defaultOptions = {
-    baseURL: baseUrl,
+    baseURL: env.apiBaseUrl,
     headers: headers,
     responseType: 'json'
   }
