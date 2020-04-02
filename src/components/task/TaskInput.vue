@@ -20,7 +20,6 @@
 <script>
 import { mapActions } from 'vuex'
 import commandHandler from '@/modules/command/commandHandler.js'
-import taskAPI from '@/modules/api/task.js'
 
 export default {
   data () {
@@ -29,7 +28,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('tasks', ['initTasks', 'focus', 'unfocus']),
+    ...mapActions('tasks', ['initTasks', 'create', 'focus', 'unfocus']),
     async handleSubmitTask (event) {
       // If enter from IME conversion, skip handling enter.
       if (!this.canSubmit) {
@@ -54,8 +53,7 @@ export default {
             await commandHandler.execute(inputText)
         }
       } else {
-        await taskAPI.create(inputText)
-        this.initTasks()
+        this.create({ title: inputText })
       }
 
       // 処理完了時にはテキストボックスを空欄にする。
