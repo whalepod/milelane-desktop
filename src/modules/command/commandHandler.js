@@ -1,3 +1,4 @@
+import store from '@/store/index.js'
 import taskAPI from '@/modules/api/task.js'
 
 const execute = async (text) => {
@@ -85,9 +86,9 @@ const callLanize = async (text) => {
     return false
   }
 
-  const targetId = matchedObject[2]
+  const targetId = parseInt(matchedObject[2])
 
-  await taskAPI.lanize(targetId)
+  store.dispatch('tasks/lanize', { id: targetId })
 }
 
 const callFocus = (text) => {
