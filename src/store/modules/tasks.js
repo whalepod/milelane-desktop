@@ -6,6 +6,7 @@ const state = {
   isInitialized: false,
   isSubmitting: false,
   submittingId: null,
+  movingTask: null,
   errors: [],
   focusTargetId: null,
   tasks: []

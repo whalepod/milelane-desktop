@@ -15,7 +15,7 @@ export default {
     } else {
       state.tasks = []
     }
-    state.error = []
+    state.errors = []
   },
   [types.FAILURE_FETCH_TASKS] (state, error) {
     state.isSubmitting = false
@@ -31,7 +31,7 @@ export default {
     state.isSubmitting = false
     state.isInitialized = true
     state.tasks = [task]
-    state.error = []
+    state.errors = []
   },
   [types.FAILURE_FETCH_TASK] (state, error) {
     state.isSubmitting = false
@@ -102,6 +102,35 @@ export default {
       }
     }, state.submittingId)
     state.submittingId = null
+  },
+  [types.REQUEST_MOVE_TASK_TO_CHILD] (state, { taskId, parentId }) {
+    state.isSubmitting = true
+    // Find target task,
+    treeHandler.execEach(state.tasks, (task, payload) => {
+      if (task.id === payload.id) {
+        payload.state.movingTask = task
+      }
+    }, { id: taskId, state })
+    // ... remove it,
+    treeHandler.reduceById(state.tasks, taskId)
+    // ... and add same task under target.
+    treeHandler.execEach(state.tasks, (task, payload) => {
+      if (task.id === payload.id) {
+        task.children = task.children ? task.children : []
+        payload.state.movingTask.depth = task.depth + 1
+        task.children.push(payload.state.movingTask)
+      }
+    }, { id: parentId, state })
+  },
+  [types.SUCCESS_MOVE_TASK_TO_CHILD] (state) {
+    state.isSubmitting = false
+    state.errors = []
+  },
+  [types.FAILURE_MOVE_TASK_TO_CHILD] (state, error) {
+    state.isSubmitting = false
+    if (error) {
+      state.errors.push(error)
+    }
   },
   [types.SET_FOCUS_TARGET_ID] (state, { id }) {
     state.focusTargetId = id
