@@ -114,6 +114,7 @@ export default {
     // ... remove it,
     treeHandler.reduceById(state.tasks, taskId)
     // ... and add same task under target.
+    // TODO: Consider sorting by id.
     treeHandler.execEach(state.tasks, (task, payload) => {
       if (task.id === payload.id) {
         task.children = task.children ? task.children : []
@@ -124,10 +125,38 @@ export default {
   },
   [types.SUCCESS_MOVE_TASK_TO_CHILD] (state) {
     state.isSubmitting = false
+    state.movingTask = null
     state.errors = []
   },
   [types.FAILURE_MOVE_TASK_TO_CHILD] (state, error) {
     state.isSubmitting = false
+    state.movingTask = null
+    if (error) {
+      state.errors.push(error)
+    }
+  },
+  [types.REQUEST_MOVE_TASK_TO_ROOT] (state, { id }) {
+    state.isSubmitting = true
+    // Find target task,
+    treeHandler.execEach(state.tasks, (task, payload) => {
+      if (task.id === payload.id) {
+        payload.state.movingTask = task
+      }
+    }, { id, state })
+    // ... remove it,
+    treeHandler.reduceById(state.tasks, id)
+    // ... and add same task to root.
+    // TODO: Consider sorting by id.
+    state.tasks.push(state.movingTask)
+  },
+  [types.SUCCESS_MOVE_TASK_TO_ROOT] (state) {
+    state.isSubmitting = false
+    state.movingTask = null
+    state.errors = []
+  },
+  [types.FAILURE_MOVE_TASK_TO_ROOT] (state, error) {
+    state.isSubmitting = false
+    state.movingTask = null
     if (error) {
       state.errors.push(error)
     }

@@ -54,6 +54,15 @@ export default {
       commit(types.FAILURE_MOVE_TASK_TO_CHILD, e)
     }
   },
+  async moveToRoot ({ commit }, { id }) {
+    commit(types.REQUEST_MOVE_TASK_TO_ROOT, { id })
+    try {
+      await API.moveToRoot(id)
+      commit(types.SUCCESS_MOVE_TASK_TO_ROOT)
+    } catch (e) {
+      commit(types.FAILURE_MOVE_TASK_TO_ROOT, e)
+    }
+  },
   async focus ({ dispatch, commit, getters }, { id }) {
     await dispatch('fetchTask', { id })
     if (!getters.errors) {
