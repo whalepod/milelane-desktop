@@ -1,5 +1,4 @@
 import store from '@/store/index.js'
-import taskAPI from '@/modules/api/task.js'
 
 const execute = async (text) => {
   const commandName = getCommandName(text)
@@ -60,9 +59,9 @@ const callMove = async (text) => {
 
   // /move \d+ to root に該当する場合のみ、 taskAPI.moveToRoot を呼び出す分岐に入る
   if (matchedObject !== null && matchedObject.length === 2) {
-    const targetId = matchedObject[1]
+    const targetId = parseInt(matchedObject[1])
 
-    await taskAPI.moveToRoot(targetId)
+    await store.dispatch('tasks/moveToRoot', { id: targetId })
     return
   }
 
