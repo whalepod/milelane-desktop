@@ -27,6 +27,15 @@ export default {
       commit(types.FAILURE_FETCH_TASK, e)
     }
   },
+  async create ({ commit }, { title }) {
+    commit(types.REQUEST_CREATE_TASK, { title })
+    try {
+      const { data } = await API.create(title)
+      commit(types.SUCCESS_CREATE_TASK, { task: data })
+    } catch (e) {
+      commit(types.FAILURE_CREATE_TASK, e)
+    }
+  },
   async focus ({ dispatch, commit, getters }, { id }) {
     await dispatch('fetchTask', { id })
     if (!getters.errors) {

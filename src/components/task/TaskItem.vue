@@ -1,10 +1,19 @@
 <template>
   <div>
     <div class="task-item" :class="{ 'task-item-lane': type === 'lane' }">
-      <span class="task-item-id" :class="{ 'task-item-lane-id': type === 'lane' }">#{{id}}</span>
+      <!-- `...` shows that now sending, will be replaced with loading animation. -->
+      <span v-if="isPending" class="task-item-id">...</span>
+      <span v-else-if="id === 0" class="task-item-id task-item-id-error">error</span>
+      <span v-else class="task-item-id" :class="{ 'task-item-lane-id': type === 'lane' }">#{{id}}</span>
       <p class="task-item-title" :class="{ 'task-item-lane-title': type === 'lane' }">{{title}}</p>
       <button v-if="canCompleteTask" class="task-item-complete-button" @click="handleCompleteTask">Done</button>
       <div class="task-item-completed" v-else-if="completed_at">✔</div>
+      <!-- TODO: Adjust design to enable this having multiple errors. (This may collapse) -->
+      <ul v-if="hasErrors" class="task-item-errors">
+        <li v-for="(error, index) in errors" :key="index"  class="task-item-error">
+          {{ error.message }}
+        </li>
+      </ul>
     </div>
     <ul v-if="hasChildren" class="task-children">
       <li v-for="child in freshChildren" :key="child.id">
@@ -30,7 +39,7 @@ export default {
   name: 'task-item',
   computed: {
     canCompleteTask () {
-      return this.type === 'task' && this.completed_at === ''
+      return this.type === 'task' && this.completed_at === '' && !this.hasErrors
     },
     hasChildren () {
       return this.freshChildren.length !== 0
@@ -40,6 +49,9 @@ export default {
       return this.children.filter(child =>
         child.completed_at === '' || moment(child.completed_at).add(1, 'day').isAfter(moment())
       )
+    },
+    hasErrors () {
+      return this.errors.length !== 0
     }
   },
   methods: {
@@ -74,6 +86,20 @@ export default {
       required: false,
       default: () => {
         return []
+      }
+    },
+    errors: {
+      type: Array,
+      required: false,
+      default: () => {
+        return []
+      }
+    },
+    isPending: {
+      type: Boolean,
+      required: false,
+      default: () => {
+        return false
       }
     }
   }
@@ -129,6 +155,7 @@ export default {
   .task-item-complete-button:hover {
     opacity: .7;
   }
+
   /* Show if completed. */
   .task-item-completed {
     border-radius: 4px;
@@ -150,6 +177,25 @@ export default {
   }
   .task-children {
     padding-left: 20px;
+  }
+
+  /* Show if has errors */
+  .task-item-id-error {
+    background-color: red;
+  }
+  .task-item-errors {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    padding: 2px 6px;
+    border: 1px solid red;
+    border-radius: 4px;
+  }
+  .task-item-error {
+    line-height: 18px;
+    font-size: 10px;
+    color: red;
   }
 
   /* css only for type lane (overwrite `.task-item`, not re-write) */
