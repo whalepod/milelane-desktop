@@ -42,11 +42,16 @@ const callAdd = async (text) => {
   }
 
   const title = matchedObject[2]
-  const targetId = matchedObject[3]
+  const targetId = parseInt(matchedObject[3])
 
-  const result = await taskAPI.create(title)
-  const task = result.data
-  await taskAPI.moveToChild(task.id, targetId)
+  await store.dispatch('tasks/create', { title })
+  const state = store.state.tasks
+  if (state.errors.length !== 0) {
+    return false
+  }
+
+  const task = state.tasks[state.tasks.length - 1]
+  store.dispatch('tasks/moveToChild', { taskId: task.id, parentId: targetId })
 }
 
 const callMove = async (text) => {
@@ -70,10 +75,10 @@ const callMove = async (text) => {
     return false
   }
 
-  const targetId = matchedObject[1]
-  const parentId = matchedObject[2]
+  const targetId = parseInt(matchedObject[1])
+  const parentId = parseInt(matchedObject[2])
 
-  await taskAPI.moveToChild(targetId, parentId)
+  store.dispatch('tasks/moveToChild', { taskId: targetId, parentId })
 }
 
 const callLanize = async (text) => {

@@ -45,6 +45,15 @@ export default {
       commit(types.FAILURE_LANIZE_TASK, e)
     }
   },
+  async moveToChild ({ commit }, { taskId, parentId }) {
+    commit(types.REQUEST_MOVE_TASK_TO_CHILD, { taskId, parentId })
+    try {
+      await API.moveToChild(taskId, parentId)
+      commit(types.SUCCESS_MOVE_TASK_TO_CHILD)
+    } catch (e) {
+      commit(types.FAILURE_MOVE_TASK_TO_CHILD, e)
+    }
+  },
   async focus ({ dispatch, commit, getters }, { id }) {
     await dispatch('fetchTask', { id })
     if (!getters.errors) {
