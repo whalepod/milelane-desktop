@@ -1,4 +1,5 @@
 import * as types from '@/store/modules/tasks/mutationTypes'
+import treeHandler from '@/modules/treeHandler'
 // TODO: Use moment-timezone, handle JST.
 import moment from 'moment'
 
@@ -71,6 +72,36 @@ export default {
         task.isPending = false
       }
     })
+  },
+  [types.REQUEST_LANIZE_TASK] (state, { id }) {
+    state.isSubmitting = true
+    state.submittingId = id
+    // Find lanize target and update type from task to lane.
+    treeHandler.execEach(state.tasks, (task, submittingId) => {
+      if (task.id === submittingId) {
+        task.type = 'lane'
+      }
+    }, id)
+  },
+  [types.SUCCESS_LANIZE_TASK] (state) {
+    state.isSubmitting = false
+    state.submittingId = null
+  },
+  [types.FAILURE_LANIZE_TASK] (state, error) {
+    state.isSubmitting = false
+    if (error) {
+      state.errors.push(error)
+    }
+    // For each task in tree,
+    // insert error if it's the task which failed submitting.
+    treeHandler.execEach(state.tasks, (task, submittingId) => {
+      if (task.id === submittingId) {
+        task.type = 'task'
+        task.errors = task.errors ? task.errors : []
+        task.errors.push({ message: 'Failed lanize task.' })
+      }
+    }, state.submittingId)
+    state.submittingId = null
   },
   [types.SET_FOCUS_TARGET_ID] (state, { id }) {
     state.focusTargetId = id

@@ -36,6 +36,15 @@ export default {
       commit(types.FAILURE_CREATE_TASK, e)
     }
   },
+  async lanize ({ commit }, { id }) {
+    commit(types.REQUEST_LANIZE_TASK, { id })
+    try {
+      await API.lanize(id)
+      commit(types.SUCCESS_LANIZE_TASK)
+    } catch (e) {
+      commit(types.FAILURE_LANIZE_TASK, e)
+    }
+  },
   async focus ({ dispatch, commit, getters }, { id }) {
     await dispatch('fetchTask', { id })
     if (!getters.errors) {

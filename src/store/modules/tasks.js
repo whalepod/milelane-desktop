@@ -5,6 +5,7 @@ import getters from '@/store/modules/tasks/getters'
 const state = {
   isInitialized: false,
   isSubmitting: false,
+  submittingId: null,
   errors: [],
   focusTargetId: null,
   tasks: []
