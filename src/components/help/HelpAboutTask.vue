@@ -1,0 +1,23 @@
+<template>
+  <section>
+    <h1>タスクについて</h1>
+    <p>
+      milelaneのタスクは今のところ<strong>まだ</strong>シンプルです。<br>
+      タスクはIDとタイトル、完了状態、そしてタスク種別を持っています。
+    </p>
+    <h2>タスク種別とlane、そしてlanizeについて</h2>
+    <p>
+      milelaneにおけるタスクは今のところ、二つの種類があります。<br>
+      一つは、完了することが可能な<code>task</code>タイプのタスク。<br>
+      これはとても普通のタスクです。
+    </p>
+    <p>
+      もう一つは完了という概念を持たない<code>lane</code>タイプのタスク。<br>
+      例えば長期にわたるプロジェクトや、継続改善する対象などは、この<code>lane</code>という概念で表現します。<br>
+    </p>
+    <p>
+      milelaneでは、<code>task</code>タイプを昇格させる形で<code>lane</code>タイプのタスクを作成します。これを<strong>lanize</strong>と呼びます。<br>
+      詳しくは「milelaneの使い方」の中の、「コマンドについて」のセクションでやり方を説明します。
+    </p>
+  </section>
+</template>
