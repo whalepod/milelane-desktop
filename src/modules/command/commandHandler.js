@@ -25,6 +25,9 @@ const execute = async (text) => {
     case 'unfocus':
       // unfocusはAPI呼び出しを伴わないので現時点では処理なし
       break
+    case 'help':
+      callHelp()
+      break
   }
 
   return null
@@ -110,6 +113,10 @@ const callFocus = (text) => {
   return targetId
 }
 
+const callHelp = () => {
+  store.dispatch('modal/openHelp')
+}
+
 /**
  * コマンドの種類を取得する
  * @return { String, false } 成功時にはコマンドの名称を、失敗時には false を返却する
@@ -118,6 +125,9 @@ const getCommandName = (text) => {
   // コマンドのみで完結するものは完全一致判定をする
   if (text === '/unfocus') {
     return 'unfocus'
+  }
+  if (text === '/help') {
+    return 'help'
   }
 
   // この正規表現は `/add command body` の `/add ` にヒットする。

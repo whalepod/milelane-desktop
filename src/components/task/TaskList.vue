@@ -1,7 +1,8 @@
 <template>
   <section>
     <p v-if="!hasTasks" class="task-list-empty-message">
-      まだトドはいません。やることを追加してトドを増やしましょう :)
+      まだタスクはありません。やることを入力欄に入れてタスクを追加してみましょう :)<br>
+      使い方がわからないときは、<code>/help</code>と下の入力欄に入れてみましょう。
     </p>
     <ul id="task-list" class="task-list">
       <li v-for="task in freshTasks" :key="task.id">
@@ -46,7 +47,17 @@ export default {
     padding: 12px 12px 49px; /* TaskInputオブジェクトの height 48px + border 1px */
   }
   .task-list-empty-message {
+    max-width: 800px;
+    margin: 0 auto;
     padding: 12px;
     font-size: 13px;
+  }
+  .task-list-empty-message > code {
+    display: inline-block;
+    padding: 0 6px;
+    margin: 0 2px;
+    font-size: inherit;
+    background-color: #f1f1f1;
+    border-radius: 3px;
   }
 </style>
