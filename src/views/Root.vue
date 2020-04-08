@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 import TheHeader from '@/components/TheHeader'
 import TheModal from '@/components/TheModal'
 import TaskList from '@/components/task/TaskList'
@@ -25,9 +25,6 @@ export default {
   },
   created () {
     this.initTasks()
-  },
-  computed: {
-    ...mapGetters('tasks', ['selectedTaskId'])
   },
   methods: {
     ...mapActions('tasks', ['initTasks']),
