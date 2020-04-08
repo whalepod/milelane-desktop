@@ -76,5 +76,33 @@ export default {
       commit(types.UNSET_FOCUS_TARGET_ID)
     }
     // TODO: handle if errors found.
+  },
+  async updateTitle ({ commit }, { id, title }) {
+    commit(types.REQUEST_UPDATE_TASK_TITLE)
+    await API.updateTitle(id, title)
+    try {
+      commit(types.SUCCESS_UPDATE_TASK_TITLE, { id, title })
+    } catch (e) {
+      commit(types.FAILURE_UPDATE_TASK_TITLE, e)
+    }
+  },
+  enableEdit ({ commit }, { id }) {
+    commit(types.ENABLE_EDIT, { id })
+  },
+  finishEdit ({ commit }) {
+    commit(types.FINISH_EDIT)
+  },
+  async submitEdit ({ dispatch, commit, getters }, { title }) {
+    await dispatch('updateTitle', {
+      id: getters.editingTaskId,
+      title
+    })
+    commit(types.FINISH_EDIT)
+  },
+  select ({ commit }, { id }) {
+    commit(types.SET_SELECTED_TASK_ID, { id })
+  },
+  deselect ({ commit }) {
+    commit(types.UNSET_SELECTED_TASK_ID)
   }
 }

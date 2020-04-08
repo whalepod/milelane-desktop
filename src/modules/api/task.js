@@ -7,6 +7,7 @@ const complete = (id) => client().post(`/tasks/${id}/complete`)
 const lanize = (id) => client().post(`/tasks/${id}/lanize`)
 const moveToChild = (taskId, parentId) => client().post(`/tasks/${taskId}/move-to-child/${parentId}`)
 const moveToRoot = (taskId) => client().post(`/tasks/${taskId}/move-to-root`)
+const updateTitle = (id, title) => client().post(`/tasks/${id}/update-title`, { title })
 
 export default {
   fetch,
@@ -15,5 +16,6 @@ export default {
   complete,
   lanize,
   moveToChild,
-  moveToRoot
+  moveToRoot,
+  updateTitle
 }

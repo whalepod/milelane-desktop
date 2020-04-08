@@ -161,10 +161,40 @@ export default {
       state.errors.push(error)
     }
   },
+  [types.REQUEST_UPDATE_TASK_TITLE] (state) {
+    state.isSubmitting = true
+  },
+  [types.SUCCESS_UPDATE_TASK_TITLE] (state, { id, title }) {
+    state.isSubmitting = false
+    treeHandler.execEach(state.tasks, (task, payload) => {
+      if (task.id === payload.id) {
+        task.title = payload.title
+      }
+    }, { id, title })
+    state.errors = []
+  },
+  [types.FAILURE_UPDATE_TASK_TITLE] (state, error) {
+    state.isSubmitting = false
+    if (error) {
+      state.errors.push(error)
+    }
+  },
   [types.SET_FOCUS_TARGET_ID] (state, { id }) {
     state.focusTargetId = id
   },
   [types.UNSET_FOCUS_TARGET_ID] (state) {
     state.focusTargetId = null
+  },
+  [types.SET_SELECTED_TASK_ID] (state, { id }) {
+    state.selectedTaskId = id
+  },
+  [types.UNSET_SELECTED_TASK_ID] (state) {
+    state.selectedTaskId = null
+  },
+  [types.ENABLE_EDIT] (state, { id }) {
+    state.editingTaskId = id
+  },
+  [types.FINISH_EDIT] (state) {
+    state.editingTaskId = null
   }
 }

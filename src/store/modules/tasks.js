@@ -8,7 +8,11 @@ const state = {
   submittingId: null,
   movingTask: null,
   errors: [],
+  // focusTargetId is used to fetch only 1 parental task from API.
   focusTargetId: null,
+  // selectedTaskId is used to define action target. It effects on keyboard action.
+  selectedTaskId: null,
+  editingTaskId: null,
   tasks: []
 }
 
