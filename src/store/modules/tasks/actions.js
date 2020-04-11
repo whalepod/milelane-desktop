@@ -89,15 +89,15 @@ export default {
   enableEdit ({ commit }, { id }) {
     commit(types.ENABLE_EDIT, { id })
   },
-  finishEdit ({ commit }) {
-    commit(types.FINISH_EDIT)
+  leaveEdit ({ commit }) {
+    commit(types.LEAVE_EDIT)
   },
   async submitEdit ({ dispatch, commit, getters }, { title }) {
     await dispatch('updateTitle', {
       id: getters.editingTaskId,
       title
     })
-    commit(types.FINISH_EDIT)
+    commit(types.LEAVE_EDIT)
   },
   select ({ commit }, { id }) {
     commit(types.SET_SELECTED_TASK_ID, { id })

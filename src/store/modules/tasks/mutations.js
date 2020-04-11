@@ -194,7 +194,7 @@ export default {
   [types.ENABLE_EDIT] (state, { id }) {
     state.editingTaskId = id
   },
-  [types.FINISH_EDIT] (state) {
+  [types.LEAVE_EDIT] (state) {
     state.editingTaskId = null
   }
 }

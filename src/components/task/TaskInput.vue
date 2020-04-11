@@ -1,5 +1,5 @@
 <template>
-  <div class="task-input">
+  <div @keyup.stop class="task-input">
     <!--
       日本語入力の確定の enter ではトド追加を実行しないようにする。
       通常は keydown -> keypress -> keyup.enter の順でイベントが発火するが、

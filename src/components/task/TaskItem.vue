@@ -13,16 +13,16 @@
       -->
       <!-- `...` shows that now sending, will be replaced with loading animation. -->
       <span v-if="isPending" class="task-item-id">...</span>
-      <span v-else-if="id === 0" class="task-item-id task-item-id-error">error</span>
-      <span v-else class="task-item-id" :class="{ 'task-item-lane-id': type === 'lane' }">#{{id}}</span>
+      <span v-else-if="!hasId" class="task-item-id task-item-id-error">error</span>
+      <span v-else class="task-item-id" :class="{ 'task-item-lane-id': isLane }">#{{id}}</span>
       <!--
         Content Section
       -->
       <p
         v-if="!isEditing"
         class="task-item-title"
-        :class="{ 'task-item-lane-title': type === 'lane' }">
-        {{title}}
+        :class="{ 'task-item-lane-title': isLane }">
+        {{ title }}
       </p>
       <!-- See TaskInput.vue input comment. -->
       <input
@@ -30,7 +30,7 @@
         v-model="newTitle"
         @keydown="disableSubmitEdit"
         @keypress="enableSubmitEdit"
-        @keyup.esc="handleFinishEditing"
+        @keyup.esc="handleLeaveEditing"
         @keyup.enter="handleSubmitEdit"
         ref="titleInput"
         class="task-item-title-input"
@@ -117,21 +117,28 @@ export default {
     hasErrors () {
       return this.errors.length !== 0
     },
+    // hasId returns whether the task id is issued by API server or not.
+    hasId () {
+      return this.id !== 0
+    },
     isSelected () {
       return this.id === this.selectedTaskId
     },
     isEditing () {
       return this.id === this.editingTaskId
+    },
+    isLane () {
+      return this.type === 'lane'
     }
   },
   methods: {
-    ...mapActions('tasks', ['select', 'deselect', 'enableEdit', 'submitEdit', 'finishEdit']),
+    ...mapActions('tasks', ['select', 'deselect', 'enableEdit', 'submitEdit', 'leaveEdit']),
     async handleCompleteTask () {
       await taskAPI.complete(this.id)
       this.$emit('emit-fetch-tasks')
     },
-    handleFinishEditing () {
-      this.finishEdit()
+    handleLeaveEditing () {
+      this.leaveEdit()
       this.newTitle = this.title
     },
     enableSubmitEdit () {
