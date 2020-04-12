@@ -255,7 +255,7 @@ export default {
   /* Show if not completed. */
   .task-item-complete-button {
     flex-shrink: 0;
-    width: 88px;
+    width: 96px;
     padding: 0 5px;
     line-height: 20px;
     border-radius: 4px;
