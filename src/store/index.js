@@ -14,5 +14,6 @@ export default new Vuex.Store({
     device,
     tasks
   },
-  plugins: [createPersistedState()]
+  plugins: [createPersistedState()],
+  strict: process.env.NODE_ENV !== 'production'
 })
