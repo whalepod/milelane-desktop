@@ -8,7 +8,7 @@ const client = (options, shouldAuth = true) => {
   }
 
   if (shouldAuth) {
-    headers['X-Device-UUID'] = store.state.device.deviceToken
+    headers['X-Device-UUID'] = store.state.device.deviceUuid
   }
 
   const defaultOptions = {
