@@ -14,5 +14,10 @@ export default {
     } catch (e) {
       commit(types.FAILURE_CREATE_DEVICE, e)
     }
+  },
+  setDeviceUuid ({ commit }, { deviceUuid }) {
+    if (process.env.NODE_ENV === 'su') {
+      commit(types.SET_DEVICE_UUID, { deviceUuid })
+    }
   }
 }

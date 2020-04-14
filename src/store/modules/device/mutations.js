@@ -16,5 +16,8 @@ export default {
     if (error) {
       state.errors.push(error)
     }
+  },
+  [types.SET_DEVICE_UUID] (state, { deviceUuid }) {
+    state.deviceUuid = deviceUuid
   }
 }

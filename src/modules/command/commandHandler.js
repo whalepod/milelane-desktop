@@ -28,6 +28,11 @@ const execute = async (text) => {
     case 'help':
       callHelp()
       break
+    case 'load':
+      if (process.env.NODE_ENV === 'su') {
+        callLoad(text)
+      }
+      break
   }
 
   return null
@@ -117,6 +122,19 @@ const callHelp = () => {
   store.dispatch('modal/openHelp')
 }
 
+const callLoad = (text) => {
+  const loadRegex = /^\/(.*?)\s([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/
+  const matchedObject = text.match(loadRegex)
+
+  if (matchedObject.length !== 3) {
+    return false
+  }
+
+  const deviceUuid = matchedObject[2]
+
+  store.dispatch('device/setDeviceUuid', { deviceUuid })
+}
+
 /**
  * コマンドの種類を取得する
  * @return { String, false } 成功時にはコマンドの名称を、失敗時には false を返却する
@@ -139,7 +157,7 @@ const getCommandName = (text) => {
   const commandName = matchedObject[1]
 
   // 本来存在しないコマンドの場合も false を返す
-  const reservedCommandNames = ['add', 'move', 'lanize', 'focus', 'unfocus']
+  const reservedCommandNames = ['add', 'move', 'lanize', 'focus', 'unfocus', 'load']
   if (!reservedCommandNames.includes(commandName)) {
     return false
   }
@@ -153,5 +171,6 @@ export default {
   callMove,
   callLanize,
   callFocus,
+  callLoad,
   getCommandName
 }
