@@ -4,7 +4,7 @@
     <task-list
       @emit-fetch-tasks="handleLoadTasks"
     />
-    <task-input @emit-fetch-tasks="handleLoadTasks" />
+    <the-input @emit-fetch-tasks="handleLoadTasks" />
     <the-modal />
   </section>
 </template>
@@ -13,15 +13,15 @@
 import { mapActions } from 'vuex'
 import TheHeader from '@/components/TheHeader'
 import TheModal from '@/components/TheModal'
+import TheInput from '@/components/TheInput'
 import TaskList from '@/components/task/TaskList'
-import TaskInput from '@/components/task/TaskInput'
 
 export default {
   components: {
     TheHeader,
     TheModal,
-    TaskList,
-    TaskInput
+    TheInput,
+    TaskList
   },
   created () {
     this.initTasks()
