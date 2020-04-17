@@ -38,7 +38,7 @@
       <!--
         Action & Status Section
       -->
-      <button v-if="canCompleteTask" class="task-item-complete-button" @click="handleCompleteTask">Complete task</button>
+      <button v-if="canCompleteTask" class="task-item-complete-button" @click.stop="handleCompleteTask">Complete task</button>
       <div v-else-if="completed_at" class="task-item-completed">✔</div>
       <!-- TODO: Adjust design to enable this having multiple errors. (This may collapse) -->
       <ul v-if="hasErrors" class="task-item-errors">
