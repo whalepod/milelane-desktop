@@ -44,7 +44,7 @@ export default {
   .task-list {
     max-width: 800px;
     margin: 0 auto;
-    padding: 12px 12px 49px; /* TaskInputオブジェクトの height 48px + border 1px */
+    padding: 12px 12px 49px; /* TheInputオブジェクトの height 48px + border 1px */
   }
   .task-list-empty-message {
     max-width: 800px;

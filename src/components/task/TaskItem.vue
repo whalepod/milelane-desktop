@@ -24,7 +24,7 @@
         :class="{ 'task-item-lane-title': isLane }">
         {{ title }}
       </p>
-      <!-- See TaskInput.vue input comment. -->
+      <!-- See TheInput.vue input comment. -->
       <input
         v-if="isEditing"
         v-model="newTitle"
