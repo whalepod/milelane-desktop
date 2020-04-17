@@ -34,26 +34,33 @@ const execute = async (text) => {
 }
 
 const callAdd = async (text) => {
-  // この正規表現は `/add task name under 1` のような正規表現にヒットする
-  const matchedObject = text.match(/^\/(.*?)\s(.*?)\sunder\s(\d+)$/)
+  let title = ''
 
-  // WANTFIX: getCommandNameに成功するが、上記正規表現に合致しなかった場合、
-  // 以下の条件式ではエラーになってしまう。
-  if (matchedObject.length !== 4) {
+  // この正規表現は `/add task name under 1` のような正規表現にヒットする
+  let matchedObject = text.match(/^\/(.*?)\s(.*?)\sunder\s(\d+)$/)
+  if (!matchedObject) {
+    // この正規表現は `/add task name` のような正規表現にヒットする
+    matchedObject = text.match(/^\/(.*?)\s(.*?)$/)
+  }
+
+  // いずれの正規表現にも合致しなければ処理を終了する
+  if (!matchedObject) {
     return false
   }
 
-  const title = matchedObject[2]
-  const targetId = parseInt(matchedObject[3])
-
+  title = matchedObject[2]
   await store.dispatch('tasks/create', { title })
   const state = store.state.tasks
   if (state.errors.length !== 0) {
     return false
   }
 
-  const task = state.tasks[state.tasks.length - 1]
-  store.dispatch('tasks/moveToChild', { taskId: task.id, parentId: targetId })
+  // 親が指定されている場合には処理する
+  if (matchedObject.length === 4) {
+    const targetId = parseInt(matchedObject[3])
+    const task = state.tasks[state.tasks.length - 1]
+    store.dispatch('tasks/moveToChild', { taskId: task.id, parentId: targetId })
+  }
 }
 
 const callMove = async (text) => {
