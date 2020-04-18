@@ -24,10 +24,13 @@ export default {
     TaskInput
   },
   created () {
+    // initialize modal.
+    this.close()
     this.initTasks()
   },
   methods: {
     ...mapActions('tasks', ['initTasks']),
+    ...mapActions('modal', ['close']),
     handleLoadTasks () {
       this.initTasks()
     }
