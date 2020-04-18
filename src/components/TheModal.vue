@@ -15,6 +15,7 @@
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import keyCode from '@/config/keyCode.js'
 import TheHelp from '@/components/TheHelp'
 
 export default {
@@ -28,7 +29,7 @@ export default {
     // @keydown.esc="closeHelp" doesn't work
     // because within TheModal there is no input tag.
     document.addEventListener('keyup', (e) => {
-      if (e.keyCode === 27) {
+      if (e.keyCode === keyCode.ESC) {
         this.close()
       }
     })
