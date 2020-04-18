@@ -11,6 +11,8 @@ export default {
     state.isSubmitting = false
     state.isInitialized = true
     if (tasks !== null) {
+      // Change object keys from snake case to camelCase.
+      tasks = treeHandler.cameledTasks(tasks)
       state.tasks = tasks
     } else {
       state.tasks = []
@@ -30,7 +32,7 @@ export default {
   [types.SUCCESS_FETCH_TASK] (state, { task }) {
     state.isSubmitting = false
     state.isInitialized = true
-    state.tasks = [task]
+    state.tasks = treeHandler.cameledTasks([task])
     state.errors = []
   },
   [types.FAILURE_FETCH_TASK] (state, error) {
@@ -45,9 +47,9 @@ export default {
       id: 0, // Setting dummy, because TaskItem.vue requires id.
       title,
       type: 'task',
-      completed_at: '',
-      created_at: moment().format('YYYY-MM-DD HH:mm:SS'),
-      updated_at: moment().format('YYYY-MM-DD HH:mm:SS'),
+      completedAt: '',
+      createdAt: moment().format('YYYY-MM-DD HH:mm:SS'),
+      updatedAt: moment().format('YYYY-MM-DD HH:mm:SS'),
       depth: 1,
       children: [],
       isPending: true
@@ -57,7 +59,7 @@ export default {
     state.isSubmitting = false
     // https://jp.vuejs.org/v2/guide/list.html#%E5%A4%89%E6%9B%B4%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89
     state.tasks.pop()
-    state.tasks.push(task)
+    state.tasks.push(treeHandler.cameledTask(task))
     state.errors = []
   },
   [types.FAILURE_CREATE_TASK] (state, error) {

@@ -36,7 +36,55 @@ const reduceById = (treeableTasks, id) => {
   return false
 }
 
+/**
+ * cameledTasks returns converted tasks with object keys camelCase-ed.
+ * @param {*} treeableTasks
+ * @return {*} treeableTasks
+ */
+const cameledTasks = (treeableTasks) => {
+  return treeableTasks.map((task) => {
+    task.completedAt = task.completed_at
+    task.startsAt = task.starts_at
+    task.expiresAt = task.expires_at
+    task.createdAt = task.created_at
+    task.updatedAt = task.updated_at
+    delete task.completed_at
+    delete task.starts_at
+    delete task.expires_at
+    delete task.created_at
+    delete task.updated_at
+    if (task.children instanceof Array) {
+      task.children = cameledTasks(task.children)
+    }
+    return task
+  })
+}
+
+/**
+ * cameledTask returns converted task with object keys camelCase-ed.
+ * @param {*} treeableTask
+ * @return {*} treeableTask
+ */
+const cameledTask = (task) => {
+  task.completedAt = task.completed_at
+  task.startsAt = task.starts_at
+  task.expiresAt = task.expires_at
+  task.createdAt = task.created_at
+  task.updatedAt = task.updated_at
+  delete task.completed_at
+  delete task.starts_at
+  delete task.expires_at
+  delete task.created_at
+  delete task.updated_at
+  if (task.children instanceof Array) {
+    task.children = cameledTasks(task.children)
+  }
+  return task
+}
+
 export default {
   execEach,
-  reduceById
+  reduceById,
+  cameledTasks,
+  cameledTask
 }

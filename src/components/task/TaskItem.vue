@@ -1,54 +1,89 @@
 <template>
   <div>
     <div
-      @click="select({ id })"
       class="task-item"
       :class="{
         'task-item-lane': type === 'lane',
         'selected': isSelected
       }"
+      @click="select({ id })"
     >
       <!--
         ID Section
       -->
       <!-- `...` shows that now sending, will be replaced with loading animation. -->
-      <span v-if="isPending" class="task-item-id">...</span>
-      <span v-else-if="!hasId" class="task-item-id task-item-id-error">error</span>
-      <span v-else class="task-item-id" :class="{ 'task-item-lane-id': isLane }">#{{id}}</span>
+      <span
+        v-if="isPending"
+        class="task-item-id"
+      >...</span>
+      <span
+        v-else-if="!hasId"
+        class="task-item-id task-item-id-error"
+      >error</span>
+      <span
+        v-else
+        class="task-item-id"
+        :class="{ 'task-item-lane-id': isLane }"
+      >#{{ id }}</span>
       <!--
         Content Section
       -->
       <p
         v-if="!isEditing"
         class="task-item-title"
-        :class="{ 'task-item-lane-title': isLane }">
+        :class="{ 'task-item-lane-title': isLane }"
+      >
         {{ title }}
       </p>
       <!-- See TheInput.vue input comment. -->
       <input
         v-if="isEditing"
+        ref="titleInput"
         v-model="newTitle"
+        class="task-item-title-input"
         @keydown="disableSubmitEdit"
         @keypress="enableSubmitEdit"
         @keyup.esc="handleLeaveEditing"
         @keyup.enter="handleSubmitEdit"
-        ref="titleInput"
-        class="task-item-title-input"
       >
       <!--
         Action & Status Section
       -->
-      <button v-if="canCompleteTask" class="task-item-complete-button" @click.stop="handleCompleteTask">Complete task</button>
-      <div v-else-if="completed_at" class="task-item-completed">✔</div>
+      <button
+        v-if="canCompleteTask"
+        class="task-item-complete-button"
+        @click.stop="handleCompleteTask"
+      >
+        Complete task
+      </button>
+      <div
+        v-else-if="completedAt"
+        class="task-item-completed"
+      >
+        ✔
+      </div>
       <!-- TODO: Adjust design to enable this having multiple errors. (This may collapse) -->
-      <ul v-if="hasErrors" class="task-item-errors">
-        <li v-for="(error, index) in errors" :key="index"  class="task-item-error">
+      <ul
+        v-if="hasErrors"
+        class="task-item-errors"
+      >
+        <li
+          v-for="(error, index) in errors"
+          :key="index"
+          class="task-item-error"
+        >
           {{ error.message }}
         </li>
       </ul>
     </div>
-    <ul v-if="hasChildren" class="task-children">
-      <li v-for="child in freshChildren" :key="child.id">
+    <ul
+      v-if="hasChildren"
+      class="task-children"
+    >
+      <li
+        v-for="child in freshChildren"
+        :key="child.id"
+      >
         <!--
           WANTFIX:
           For now, Rolling `emit-fetch-tasks` event up,
@@ -70,92 +105,7 @@ import taskAPI from '@/modules/api/task.js'
 export default {
   // Name property is required to render recursive component.
   // System Message: `For recursive components, make sure to provide the "name" option.`
-  name: 'task-item',
-  data () {
-    return {
-      newTitle: '',
-      canSubmit: false
-    }
-  },
-  mounted () {
-    // Init input value.
-    this.newTitle = this.title
-    // To catch enter all around Root.vue,
-    // setting native event listener.
-    document.addEventListener('keyup', (e) => {
-      // esc
-      if (e.keyCode === 27) {
-        if (this.selectedTaskId === this.id) {
-          this.deselect()
-        }
-      }
-      // enter
-      if (e.keyCode === 13) {
-        if (this.selectedTaskId === this.id) {
-          this.enableEdit({ id: this.id })
-          this.$nextTick(() => {
-            this.$refs.titleInput.focus()
-          })
-        }
-      }
-    })
-  },
-  computed: {
-    ...mapGetters('tasks', ['selectedTaskId', 'editingTaskId']),
-    canCompleteTask () {
-      return this.type === 'task' && this.completed_at === '' && !this.hasErrors
-    },
-    hasChildren () {
-      return this.freshChildren.length !== 0
-    },
-    freshChildren () {
-      if (!(this.children instanceof Array) || this.children.length === 0) { return [] }
-      return this.children.filter(child =>
-        child.completed_at === '' || moment(child.completed_at).add(1, 'day').isAfter(moment())
-      )
-    },
-    hasErrors () {
-      return this.errors.length !== 0
-    },
-    // hasId returns whether the task id is issued by API server or not.
-    hasId () {
-      return this.id !== 0
-    },
-    isSelected () {
-      return this.id === this.selectedTaskId
-    },
-    isEditing () {
-      return this.id === this.editingTaskId
-    },
-    isLane () {
-      return this.type === 'lane'
-    }
-  },
-  methods: {
-    ...mapActions('tasks', ['select', 'deselect', 'enableEdit', 'submitEdit', 'leaveEdit']),
-    async handleCompleteTask () {
-      await taskAPI.complete(this.id)
-      this.$emit('emit-fetch-tasks')
-    },
-    handleLeaveEditing () {
-      this.leaveEdit()
-      this.newTitle = this.title
-    },
-    enableSubmitEdit () {
-      this.canSubmit = true
-    },
-    disableSubmitEdit () {
-      this.canSubmit = false
-    },
-    async handleSubmitEdit () {
-      // If enter from IME conversion, skip handling enter.
-      if (!this.canSubmit) {
-        return null
-      }
-      this.canSubmit = false
-      this.submitEdit({ title: this.newTitle })
-    }
-  },
+  name: 'TaskItem',
   props: {
     id: {
       type: Number,
@@ -169,7 +119,7 @@ export default {
       type: String,
       required: true
     },
-    completed_at: {
+    completedAt: {
       type: String,
       required: true
     },
@@ -197,6 +147,91 @@ export default {
       default: () => {
         return false
       }
+    }
+  },
+  data () {
+    return {
+      newTitle: '',
+      canSubmit: false
+    }
+  },
+  computed: {
+    ...mapGetters('tasks', ['selectedTaskId', 'editingTaskId']),
+    canCompleteTask () {
+      return this.type === 'task' && this.completedAt === '' && !this.hasErrors
+    },
+    hasChildren () {
+      return this.freshChildren.length !== 0
+    },
+    freshChildren () {
+      if (!(this.children instanceof Array) || this.children.length === 0) { return [] }
+      return this.children.filter(child =>
+        child.completedAt === '' || moment(child.completedAt).add(1, 'day').isAfter(moment())
+      )
+    },
+    hasErrors () {
+      return this.errors.length !== 0
+    },
+    // hasId returns whether the task id is issued by API server or not.
+    hasId () {
+      return this.id !== 0
+    },
+    isSelected () {
+      return this.id === this.selectedTaskId
+    },
+    isEditing () {
+      return this.id === this.editingTaskId
+    },
+    isLane () {
+      return this.type === 'lane'
+    }
+  },
+  mounted () {
+    // Init input value.
+    this.newTitle = this.title
+    // To catch enter all around Root.vue,
+    // setting native event listener.
+    document.addEventListener('keyup', (e) => {
+      // esc
+      if (e.keyCode === 27) {
+        if (this.selectedTaskId === this.id) {
+          this.deselect()
+        }
+      }
+      // enter
+      if (e.keyCode === 13) {
+        if (this.selectedTaskId === this.id) {
+          this.enableEdit({ id: this.id })
+          this.$nextTick(() => {
+            this.$refs.titleInput.focus()
+          })
+        }
+      }
+    })
+  },
+  methods: {
+    ...mapActions('tasks', ['select', 'deselect', 'enableEdit', 'submitEdit', 'leaveEdit']),
+    async handleCompleteTask () {
+      await taskAPI.complete(this.id)
+      this.$emit('emit-fetch-tasks')
+    },
+    handleLeaveEditing () {
+      this.leaveEdit()
+      this.newTitle = this.title
+    },
+    enableSubmitEdit () {
+      this.canSubmit = true
+    },
+    disableSubmitEdit () {
+      this.canSubmit = false
+    },
+    async handleSubmitEdit () {
+      // If enter from IME conversion, skip handling enter.
+      if (!this.canSubmit) {
+        return null
+      }
+      this.canSubmit = false
+      this.submitEdit({ title: this.newTitle })
     }
   }
 }

@@ -1,6 +1,9 @@
 <template>
   <!-- To avoid selected task to be edit mode when submitting task. -->
-  <div @keyup.enter.stop class="task-input">
+  <div
+    class="task-input"
+    @keyup.enter.stop
+  >
     <!--
       日本語入力の確定の enter ではトド追加を実行しないようにする。
       通常は keydown -> keypress -> keyup.enter の順でイベントが発火するが、
@@ -10,14 +13,14 @@
       keydown のたびに canSubmit を false にする処理を噛ませている。
     -->
     <input
+      ref="theInput"
       type="text"
       placeholder="なにする？"
-      ref="theInput"
       @keydown.esc="unfocusCursor"
       @keydown="disableSubmitTask"
       @keypress="enableSubmitTask"
       @keyup.enter="handleSubmitTask"
-    />
+    >
   </div>
 </template>
 <script>

@@ -1,11 +1,20 @@
 <template>
   <section>
-    <p v-if="!hasTasks" class="task-list-empty-message">
+    <p
+      v-if="!hasTasks"
+      class="task-list-empty-message"
+    >
       まだタスクはありません。やることを入力欄に入れてタスクを追加してみましょう :)<br>
       使い方がわからないときは、<code>/help</code>と下の入力欄に入れてみましょう。
     </p>
-    <ul id="task-list" class="task-list">
-      <li v-for="task in freshTasks" :key="task.id">
+    <ul
+      id="task-list"
+      class="task-list"
+    >
+      <li
+        v-for="task in freshTasks"
+        :key="task.id"
+      >
         <task-item
           v-bind="task"
           @emit-fetch-tasks="fetchTasks"
