@@ -1,5 +1,6 @@
 <template>
-  <div @keyup.stop class="task-input">
+  <!-- To avoid selected task to be edit mode when submitting task. -->
+  <div @keyup.enter.stop class="task-input">
     <!--
       日本語入力の確定の enter ではトド追加を実行しないようにする。
       通常は keydown -> keypress -> keyup.enter の順でイベントが発火するが、
@@ -11,6 +12,8 @@
     <input
       type="text"
       placeholder="なにする？"
+      ref="theInput"
+      @keydown.esc="unfocusCursor"
       @keydown="disableSubmitTask"
       @keypress="enableSubmitTask"
       @keyup.enter="handleSubmitTask"
@@ -64,6 +67,12 @@ export default {
     },
     disableSubmitTask () {
       this.canSubmit = false
+    },
+    unfocusCursor () {
+      // Note that blur() does not bubble up event,
+      // while focusout does.
+      // https://developer.mozilla.org/en-US/docs/Web/API/Element/blur_event
+      this.$refs.theInput.blur()
     },
     isCommand (text) {
       // `/` から始まる入力はコマンド扱いになる
