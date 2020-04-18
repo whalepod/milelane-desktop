@@ -1,6 +1,11 @@
 <template>
   <header class="the-header">
-    <img id="logo" src="~@/assets/logo.svg" alt="milelane-logo" class="the-header-logo">
+    <img
+      id="logo"
+      src="~@/assets/logo.svg"
+      alt="milelane-logo"
+      class="the-header-logo"
+    >
   </header>
 </template>
 <style>

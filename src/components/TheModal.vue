@@ -1,10 +1,13 @@
 <template>
   <section
     v-if="shouldShowModal"
-    @click="close"
     class="the-modal-overlay"
+    @click="close"
   >
-    <section @click.stop class="the-modal">
+    <section
+      class="the-modal"
+      @click.stop
+    >
       <p>欄外をクリック、またはescキーでhelpを閉じられます</p>
       <the-help v-if="shouldShowHelp" />
     </section>
@@ -18,6 +21,9 @@ export default {
   components: {
     TheHelp
   },
+  computed: {
+    ...mapGetters('modal', ['shouldShowModal', 'shouldShowHelp'])
+  },
   mounted () {
     // @keydown.esc="closeHelp" doesn't work
     // because within TheModal there is no input tag.
@@ -26,9 +32,6 @@ export default {
         this.close()
       }
     })
-  },
-  computed: {
-    ...mapGetters('modal', ['shouldShowModal', 'shouldShowHelp'])
   },
   methods: {
     ...mapActions('modal', ['close'])

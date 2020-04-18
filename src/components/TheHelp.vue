@@ -2,20 +2,20 @@
   <section class="the-help">
     <aside>
       <button
-        @click="setCurrentPage('aboutMilelane')"
         :class="{ 'the-help-button-selected': isCurrentPage('aboutMilelane') }"
+        @click="setCurrentPage('aboutMilelane')"
       >
         milelaneについて
       </button>
       <button
-        @click="setCurrentPage('aboutTask')"
         :class="{ 'the-help-button-selected': isCurrentPage('aboutTask') }"
+        @click="setCurrentPage('aboutTask')"
       >
         タスクについて
       </button>
       <button
-        @click="setCurrentPage('howToUseInput')"
         :class="{ 'the-help-button-selected': isCurrentPage('howToUseInput') }"
+        @click="setCurrentPage('howToUseInput')"
       >
         milelaneの使い方
       </button>
