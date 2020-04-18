@@ -41,6 +41,11 @@ export default {
 
       const inputText = event.target.value
 
+      // Skip if no text available.
+      if (inputText === '') {
+        return null
+      }
+
       if (this.isCommand(inputText)) {
         const commandName = commandHandler.getCommandName(inputText)
         switch (commandName) {
