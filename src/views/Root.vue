@@ -1,10 +1,8 @@
 <template>
   <section class="root">
     <the-header />
-    <task-list
-      @emit-fetch-tasks="handleLoadTasks"
-    />
-    <the-input @emit-fetch-tasks="handleLoadTasks" />
+    <task-list />
+    <the-input />
     <the-modal />
   </section>
 </template>

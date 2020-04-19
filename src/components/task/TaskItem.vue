@@ -84,15 +84,7 @@
         v-for="child in freshChildren"
         :key="child.id"
       >
-        <!--
-          WANTFIX:
-          For now, Rolling `emit-fetch-tasks` event up,
-          until taskAPI.fetchTasks() called.
-        -->
-        <task-item
-          v-bind="child"
-          @emit-fetch-tasks="$emit('emit-fetch-tasks')"
-        />
+        <task-item v-bind="child" />
       </li>
     </ul>
   </div>
@@ -101,7 +93,6 @@
 import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
 import keyCode from '@/config/keyCode.js'
-import taskAPI from '@/modules/api/task.js'
 
 export default {
   // Name property is required to render recursive component.
@@ -211,10 +202,9 @@ export default {
     })
   },
   methods: {
-    ...mapActions('tasks', ['select', 'deselect', 'enableEdit', 'submitEdit', 'leaveEdit']),
+    ...mapActions('tasks', ['complete', 'select', 'deselect', 'enableEdit', 'submitEdit', 'leaveEdit']),
     async handleCompleteTask () {
-      await taskAPI.complete(this.id)
-      this.$emit('emit-fetch-tasks')
+      this.complete({ id: this.id })
     },
     handleLeaveEditing () {
       this.leaveEdit()
