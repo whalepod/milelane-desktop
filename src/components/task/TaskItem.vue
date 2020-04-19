@@ -100,6 +100,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
+import keyCode from '@/config/keyCode.js'
 import taskAPI from '@/modules/api/task.js'
 
 export default {
@@ -193,13 +194,13 @@ export default {
     // setting native event listener.
     document.addEventListener('keyup', (e) => {
       // esc
-      if (e.keyCode === 27) {
+      if (e.keyCode === keyCode.ESC) {
         if (this.selectedTaskId === this.id) {
           this.deselect()
         }
       }
       // enter
-      if (e.keyCode === 13) {
+      if (e.keyCode === keyCode.ENTER) {
         if (this.selectedTaskId === this.id) {
           this.enableEdit({ id: this.id })
           this.$nextTick(() => {
