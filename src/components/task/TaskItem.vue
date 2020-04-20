@@ -241,17 +241,21 @@ export default {
     background-color: #f6f6f6;
   }
   .task-item.selected {
-    background-color: #e7e7e7;
+    background-color: #eaeaea;
   }
+
   .task-item-id {
+    position: relative;
     /* Currently, only 4 digits can be shown. */
     flex-shrink: 0;
     width: 44px;
-    padding: 0 5px;
-    background-color: #6ba893;
+    padding: 0 8px;
+    border: 1px solid #558783;
     border-radius: 4px;
-    color: #fff;
+    background-color: #fff;
+    color: #558783;
     font-size: 10px;
+    font-weight: bold;
     line-height: 20px;
   }
 
@@ -259,7 +263,7 @@ export default {
     -webkit-flex-grow: 1;
     flex-grow: 1;
     padding-left: 8px;
-    line-height: 20px;
+    line-height: 22px;
     font-size: 11px;
     font-weight: bold;
     color: #777;
@@ -269,13 +273,14 @@ export default {
   .task-item-title-input {
     -webkit-flex-grow: 1;
     flex-grow: 1;
-    padding-left: 4px;
-    margin-left: 4px;
-    line-height: 20px;
+    padding: 0 4px;
+    margin: 0 4px;
+    line-height: 22px;
     font-size: 11px;
     font-weight: bold;
-    color: #777;
+    color: #666;
     background-color: #fff;
+    border-radius: 4px;
   }
 
   /* Show if not completed. */
@@ -284,17 +289,20 @@ export default {
     width: 96px;
     padding: 0 5px;
     line-height: 20px;
+    border: 1px solid #558783;
     border-radius: 4px;
-    background-color: #558783;
+    border-radius: 4px;
+    background-color: #fff;
     transition: all .3s;
 
-    color: #f1f1f1;
+    color: #6ba893;
+    font-weight: bold;
 
     font-size: 10px;
-    font-weight: bold;
   }
   .task-item-complete-button:hover {
-    opacity: .7;
+    background-color: #558783;
+    color: #f1f1f1;
   }
 
   /* Show if completed. */
@@ -303,10 +311,10 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 44px;
+    width: 48px;
     border-radius: 4px;
-    line-height: 20px;
-    background-color: #6ba893;
+    line-height: 22px;
+    background-color: #558783;
     color: #fff;
     font-size: 10px;
   }
@@ -317,7 +325,10 @@ export default {
   /* Show if has errors */
   /* This class should be used with .task-item-id */
   .task-item-id-error {
+    padding: 0 7px;
     background-color: red;
+    border-color: red;
+    color: #fff;
   }
   .task-item-errors {
     flex-shrink: 0;
@@ -340,13 +351,14 @@ export default {
     background-color: #f1f1f1;
   }
   .task-item-lane:hover {
-    background-color: #e7e7e7;
+    background-color: #eaeaea;
   }
   .task-item-lane-id {
     background-color: #558783;
+    color: #f1f1f1;
   }
   .task-item-lane-title {
-    color: #666;
+    color: #5d5d5d;
   }
 
 </style>
