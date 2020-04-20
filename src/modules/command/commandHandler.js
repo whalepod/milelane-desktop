@@ -55,11 +55,17 @@ const callAdd = async (text) => {
     return false
   }
 
-  // 親が指定されている場合には処理する
+  const task = state.tasks[state.tasks.length - 1]
+
+  // 親が指定されている場合にはその配下への移動を実行する
   if (matchedObject.length === 4) {
     const targetId = parseInt(matchedObject[3])
-    const task = state.tasks[state.tasks.length - 1]
-    store.dispatch('tasks/moveToChild', { taskId: task.id, parentId: targetId })
+    await store.dispatch('tasks/moveToChild', { taskId: task.id, parentId: targetId })
+  }
+
+  // 「〜した」というtitleの場合には完了にする
+  if (title.match(/.*?した$/)) {
+    await store.dispatch('tasks/complete', { id: task.id })
   }
 }
 
