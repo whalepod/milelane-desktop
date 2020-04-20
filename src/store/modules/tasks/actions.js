@@ -36,6 +36,15 @@ export default {
       commit(types.FAILURE_CREATE_TASK, e)
     }
   },
+  async complete ({ commit }, { id }) {
+    commit(types.REQUEST_COMPLETE_TASK, { id })
+    try {
+      await API.complete(id)
+      commit(types.SUCCESS_COMPLETE_TASK)
+    } catch (e) {
+      commit(types.FAILURE_COMPLETE_TASK, e)
+    }
+  },
   async lanize ({ commit }, { id }) {
     commit(types.REQUEST_LANIZE_TASK, { id })
     try {

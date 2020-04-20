@@ -15,10 +15,7 @@
         v-for="task in freshTasks"
         :key="task.id"
       >
-        <task-item
-          v-bind="task"
-          @emit-fetch-tasks="fetchTasks"
-        />
+        <task-item v-bind="task" />
       </li>
     </ul>
   </section>
@@ -40,11 +37,6 @@ export default {
       return this.tasks.filter(task =>
         task.completed_at === '' || moment(task.completed_at).add(1, 'day').isAfter(moment())
       )
-    }
-  },
-  methods: {
-    fetchTasks () {
-      this.$emit('emit-fetch-tasks')
     }
   }
 }
