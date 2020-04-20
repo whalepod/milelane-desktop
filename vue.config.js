@@ -15,6 +15,14 @@ module.exports = {
         dmg: {
           sign: false
         },
+        protocols: [
+          {
+            name: 'milelane',
+            schemes: [
+              'milelane'
+            ]
+          }
+        ],
         afterSign: 'scripts/notarize.js'
       }
     }
