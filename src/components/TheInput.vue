@@ -24,7 +24,7 @@
   </div>
 </template>
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import commandHandler from '@/modules/command/commandHandler.js'
 
 export default {
@@ -33,8 +33,11 @@ export default {
       canSubmit: false
     }
   },
+  computed: {
+    ...mapGetters('tasks', ['tasks'])
+  },
   methods: {
-    ...mapActions('tasks', ['initTasks', 'create', 'focus', 'unfocus']),
+    ...mapActions('tasks', ['initTasks', 'create', 'complete', 'focus', 'unfocus']),
     async handleSubmitTask (event) {
       // If enter from IME conversion, skip handling enter.
       if (!this.canSubmit) {
@@ -64,7 +67,11 @@ export default {
             await commandHandler.execute(inputText)
         }
       } else {
-        this.create({ title: inputText })
+        await this.create({ title: inputText })
+        const task = this.tasks[this.tasks.length - 1]
+        if (inputText.match(/.*?した$/)) {
+          await this.complete({ id: task.id })
+        }
       }
 
       // 処理完了時にはテキストボックスを空欄にする。
