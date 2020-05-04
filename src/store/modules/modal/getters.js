@@ -1,4 +1,11 @@
 export default {
-  shouldShowModal: ({ shouldShowHelp }) => [shouldShowHelp].some(flag => flag),
-  shouldShowHelp: ({ shouldShowHelp }) => shouldShowHelp
+  shouldShowModal: ({
+    shouldShowHelp,
+    shouldShowSchedule
+  }) => [
+    shouldShowHelp,
+    shouldShowSchedule
+  ].some(flag => flag),
+  shouldShowHelp: ({ shouldShowHelp }) => shouldShowHelp,
+  shouldShowSchedule: ({ shouldShowSchedule }) => shouldShowSchedule
 }

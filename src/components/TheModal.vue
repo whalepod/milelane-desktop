@@ -10,6 +10,7 @@
     >
       <p>欄外をクリック、またはescキーでhelpを閉じられます</p>
       <the-help v-if="shouldShowHelp" />
+      <the-schedule v-if="shouldShowSchedule" />
     </section>
   </section>
 </template>
@@ -17,13 +18,15 @@
 import { mapGetters, mapActions } from 'vuex'
 import keyCode from '@/config/keyCode.js'
 import TheHelp from '@/components/TheHelp'
+import TheSchedule from '@/components/TheSchedule'
 
 export default {
   components: {
-    TheHelp
+    TheHelp,
+    TheSchedule
   },
   computed: {
-    ...mapGetters('modal', ['shouldShowModal', 'shouldShowHelp'])
+    ...mapGetters('modal', ['shouldShowModal', 'shouldShowHelp', 'shouldShowSchedule'])
   },
   mounted () {
     // @keydown.esc="closeHelp" doesn't work
@@ -31,11 +34,15 @@ export default {
     document.addEventListener('keyup', (e) => {
       if (e.keyCode === keyCode.ESC) {
         this.close()
+        if (this.shouldShowSchedule) {
+          this.leaveSchedule()
+        }
       }
     })
   },
   methods: {
-    ...mapActions('modal', ['close'])
+    ...mapActions('modal', ['close']),
+    ...mapActions('task', ['leaveSchedule'])
   }
 }
 </script>

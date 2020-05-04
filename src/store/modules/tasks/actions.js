@@ -123,8 +123,9 @@ export default {
   deselect ({ commit }) {
     commit(types.UNSET_SELECTED_TASK_ID)
   },
-  schedule ({ commit }, { id }) {
+  schedule ({ dispatch, commit }, { id }) {
     commit(types.START_SCHEDULE, { id })
+    dispatch('modal/openSchedule', null, { root: true })
   },
   async commitSchedule ({ dispatch, commit, getters }, { startsAt, expiresAt }) {
     await dispatch('updateTerm', {
