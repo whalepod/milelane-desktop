@@ -3,8 +3,7 @@ import actions from '@/store/modules/modal/actions'
 import getters from '@/store/modules/modal/getters'
 
 const state = {
-  shouldShowHelp: false,
-  shouldShowSchedule: false
+  shouldShowHelp: false
 }
 
 export default {

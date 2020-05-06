@@ -3,6 +3,7 @@
     <the-header />
     <task-list />
     <the-input />
+    <the-schedule />
     <the-modal />
   </section>
 </template>
@@ -12,6 +13,7 @@ import { mapActions } from 'vuex'
 import TheHeader from '@/components/TheHeader'
 import TheModal from '@/components/TheModal'
 import TheInput from '@/components/TheInput'
+import TheSchedule from '@/components/TheSchedule'
 import TaskList from '@/components/task/TaskList'
 
 export default {
@@ -19,6 +21,7 @@ export default {
     TheHeader,
     TheModal,
     TheInput,
+    TheSchedule,
     TaskList
   },
   created () {

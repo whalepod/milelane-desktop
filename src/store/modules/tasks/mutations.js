@@ -197,8 +197,14 @@ export default {
     state.isSubmitting = true
     treeHandler.execEach(state.tasks, (task, payload) => {
       if (task.id === payload.id) {
-        task.startsAt = payload.startsAt
-        task.expiresAt = payload.expiresAt
+        task.startsAt =
+          startsAt !== null
+            ? payload.startsAt.format('YYYY-MM-DD HH:mm:ss')
+            : task.startsAt = null
+        task.expiresAt =
+          (expiresAt !== null)
+            ? payload.expiresAt.format('YYYY-MM-DD HH:mm:ss')
+            : null
       }
     }, { id, startsAt, expiresAt })
   },
@@ -249,9 +255,11 @@ export default {
     state.editingTaskId = null
   },
   [types.START_SCHEDULE] (state, { id }) {
+    state.isScheduling = true
     state.schedulingTaskId = id
   },
   [types.END_SCHEDULE] (state) {
+    state.isScheduling = false
     state.schedulingTaskId = null
   }
 }

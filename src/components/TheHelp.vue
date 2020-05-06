@@ -107,14 +107,10 @@ export default {
 .the-help > article > section {
   margin-bottom: 32px;
 }
-.the-help > article > section > * > code {
-  display: inline-block;
-  padding: 0 6px;
-  margin: 0 2px;
-  font-size: inherit;
-  background-color: #f1f1f1;
-  border-radius: 3px;
-}
+/*
+  .the-help > article > section > * > code
+  inherits from base.css `code` styling.
+*/
 .the-help > article > section > * > strong {
   display: inline-block;
   font-size: inherit;
