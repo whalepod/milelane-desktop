@@ -8,6 +8,10 @@
       }"
       @click="select({ id })"
     >
+      <task-item-dates
+        v-if="shouldShowDates"
+        :expires-at="expiresAt"
+      />
       <!--
         ID Section
       -->
@@ -57,7 +61,7 @@
         Complete task
       </button>
       <div
-        v-else-if="completedAt"
+        v-else-if="hasCompletedAt"
         class="task-item-completed"
       >
         ✔
@@ -93,11 +97,13 @@
 import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
 import keyCode from '@/config/keyCode.js'
+import TaskItemDates from '@/components/task/TaskItemDates'
 
 export default {
   // Name property is required to render recursive component.
   // System Message: `For recursive components, make sure to provide the "name" option.`
   name: 'TaskItem',
+  components: { TaskItemDates },
   props: {
     id: {
       type: Number,
@@ -115,6 +121,14 @@ export default {
       type: String,
       required: true
     },
+    startsAt: {
+      type: String,
+      default: () => ''
+    },
+    expiresAt: {
+      type: String,
+      default: () => ''
+    },
     depth: {
       type: Number,
       required: true
@@ -122,23 +136,17 @@ export default {
     children: {
       type: Array,
       required: false,
-      default: () => {
-        return []
-      }
+      default: () => []
     },
     errors: {
       type: Array,
       required: false,
-      default: () => {
-        return []
-      }
+      default: () => []
     },
     isPending: {
       type: Boolean,
       required: false,
-      default: () => {
-        return false
-      }
+      default: () => false
     }
   },
   data () {
@@ -149,17 +157,23 @@ export default {
   },
   computed: {
     ...mapGetters('tasks', ['selectedTaskId', 'editingTaskId']),
-    canCompleteTask () {
-      return this.type === 'task' && this.completedAt === '' && !this.hasErrors
-    },
-    hasChildren () {
-      return this.freshChildren.length !== 0
-    },
     freshChildren () {
       if (!(this.children instanceof Array) || this.children.length === 0) { return [] }
       return this.children.filter(child =>
         child.completedAt === '' || moment(child.completedAt).add(1, 'day').isAfter(moment())
       )
+    },
+    canCompleteTask () {
+      return this.type === 'task' && !this.hasCompletedAt && !this.hasErrors
+    },
+    hasChildren () {
+      return this.freshChildren.length !== 0
+    },
+    hasCompletedAt () {
+      return this.completedAt !== ''
+    },
+    hasExpiresAt () {
+      return this.expiresAt !== ''
     },
     hasErrors () {
       return this.errors.length !== 0
@@ -176,6 +190,9 @@ export default {
     },
     isLane () {
       return this.type === 'lane'
+    },
+    shouldShowDates () {
+      return [this.hasExpiresAt].some(flag => flag)
     }
   },
   mounted () {
@@ -231,6 +248,7 @@ export default {
   .task-item {
     position: relative;
     display: flex;
+    flex-wrap: wrap;
     align-items: flex-start;
     padding: 4px 6px;
     border-radius: 4px;
