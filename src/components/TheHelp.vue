@@ -154,4 +154,11 @@ export default {
   font-size: 12px;
   color: #777;
 }
+
+/* allow any nested anchor under section. */
+.the-help > article > section a {
+  display: inline-block;
+  cursor: pointer;
+  color: #558783;
+}
 </style>
