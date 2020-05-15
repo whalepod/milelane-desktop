@@ -15,6 +15,26 @@ const execEach = (treeableTasks, func, payload) => {
 }
 
 /**
+ * findById returns treeableTask by id.
+ * @param {*} treeableTasks
+ * @param { Number } id
+ * @return { * | Boolean } treeableTask or false ( that means no task found. )
+ */
+const findById = (treeableTasks, id) => {
+  const index = treeableTasks.map(task => task.id).indexOf(id)
+  if (index !== -1) {
+    return treeableTasks[index]
+  }
+  treeableTasks.forEach((task) => {
+    if (task.children && task.children.length !== 0) {
+      const result = findById(task.children, id)
+      if (result) { return result }
+    }
+  })
+  return false
+}
+
+/**
  * reduceById reduces treeableTask by id.
  * @param {*} treeableTasks
  * @param { Number } id
@@ -84,6 +104,7 @@ const cameledTask = (task) => {
 
 export default {
   execEach,
+  findById,
   reduceById,
   cameledTasks,
   cameledTask

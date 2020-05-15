@@ -86,6 +86,15 @@ export default {
     }
     // TODO: handle if errors found.
   },
+  async updateTerm ({ commit }, { id, startsAt, expiresAt }) {
+    commit(types.REQUEST_UPDATE_TASK_TERM, { id, startsAt, expiresAt })
+    await API.updateTerm(id, startsAt, expiresAt)
+    try {
+      commit(types.SUCCESS_UPDATE_TASK_TERM)
+    } catch (e) {
+      commit(types.FAILURE_UPDATE_TASK_TERM, e)
+    }
+  },
   async updateTitle ({ commit }, { id, title }) {
     commit(types.REQUEST_UPDATE_TASK_TITLE)
     await API.updateTitle(id, title)
@@ -113,5 +122,19 @@ export default {
   },
   deselect ({ commit }) {
     commit(types.UNSET_SELECTED_TASK_ID)
+  },
+  schedule ({ commit }, { id }) {
+    commit(types.START_SCHEDULE, { id })
+  },
+  async commitSchedule ({ dispatch, commit, getters }, { startsAt, expiresAt }) {
+    await dispatch('updateTerm', {
+      id: getters.schedulingTaskId,
+      startsAt,
+      expiresAt
+    })
+    commit(types.END_SCHEDULE)
+  },
+  leaveSchedule ({ commit }) {
+    commit(types.END_SCHEDULE)
   }
 }

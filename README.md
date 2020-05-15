@@ -47,3 +47,12 @@ yarn lint
 or
 yarn lint --fix
 ```
+
+## Application Architecture Design Notes
+
+In future, this section will be moved to other documents.
+
+### Vuex
+
+Every modules are allowed to depend on `modal` module.
+In other words, `modal` module won't call any other module.

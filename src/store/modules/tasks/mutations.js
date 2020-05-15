@@ -193,6 +193,31 @@ export default {
       state.errors.push(error)
     }
   },
+  [types.REQUEST_UPDATE_TASK_TERM] (state, { id, startsAt, expiresAt }) {
+    state.isSubmitting = true
+    treeHandler.execEach(state.tasks, (task, payload) => {
+      if (task.id === payload.id) {
+        task.startsAt =
+          startsAt !== null
+            ? payload.startsAt.format('YYYY-MM-DD HH:mm:ss')
+            : task.startsAt = null
+        task.expiresAt =
+          (expiresAt !== null)
+            ? payload.expiresAt.format('YYYY-MM-DD HH:mm:ss')
+            : null
+      }
+    }, { id, startsAt, expiresAt })
+  },
+  [types.SUCCESS_UPDATE_TASK_TERM] (state) {
+    state.isSubmitting = false
+    state.errors = []
+  },
+  [types.FAILURE_UPDATE_TASK_TERM] (state, error) {
+    state.isSubmitting = false
+    if (error) {
+      state.errors.push(error)
+    }
+  },
   [types.REQUEST_UPDATE_TASK_TITLE] (state) {
     state.isSubmitting = true
   },
@@ -228,5 +253,13 @@ export default {
   },
   [types.LEAVE_EDIT] (state) {
     state.editingTaskId = null
+  },
+  [types.START_SCHEDULE] (state, { id }) {
+    state.isScheduling = true
+    state.schedulingTaskId = id
+  },
+  [types.END_SCHEDULE] (state) {
+    state.isScheduling = false
+    state.schedulingTaskId = null
   }
 }

@@ -6,6 +6,9 @@ const state = {
   isInitialized: false,
   isSubmitting: false,
   submittingId: null,
+  isScheduling: false,
+  // schedulingTaskId is used to define which task is on scheduling.
+  schedulingTaskId: null,
   movingTask: null,
   errors: [],
   // focusTargetId is used to fetch only 1 parental task from API.

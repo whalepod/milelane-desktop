@@ -19,6 +19,9 @@ const execute = async (text) => {
     case 'lanize':
       await callLanize(text)
       break
+    case 'schedule':
+      callSchedule(text)
+      break
     case 'focus':
       // focus対象の値を呼び出し元で使うため、returnする
       return callFocus(text)
@@ -96,6 +99,21 @@ const callMove = async (text) => {
   store.dispatch('tasks/moveToChild', { taskId: targetId, parentId })
 }
 
+const callSchedule = async (text) => {
+  // この正規表現は `/schedule 1` のような正規表現にヒットする
+  const matchedObject = text.match(/^\/(.*?)\s(\d+)$/)
+
+  // WANTFIX: getCommandNameに成功するが、上記正規表現に合致しなかった場合、
+  // 以下の条件式ではエラーになってしまう。
+  if (matchedObject.length !== 3) {
+    return false
+  }
+
+  const targetId = parseInt(matchedObject[2])
+
+  store.dispatch('tasks/schedule', { id: targetId })
+}
+
 const callLanize = async (text) => {
   // この正規表現は `/lanize 1` のような正規表現にヒットする
   const matchedObject = text.match(/^\/(.*?)\s(\d+)$/)
@@ -152,7 +170,7 @@ const getCommandName = (text) => {
   const commandName = matchedObject[1]
 
   // 本来存在しないコマンドの場合も false を返す
-  const reservedCommandNames = ['add', 'move', 'lanize', 'focus', 'unfocus']
+  const reservedCommandNames = ['add', 'move', 'lanize', 'schedule', 'focus', 'unfocus']
   if (!reservedCommandNames.includes(commandName)) {
     return false
   }
@@ -165,6 +183,7 @@ export default {
   callAdd,
   callMove,
   callLanize,
+  callSchedule,
   callFocus,
   getCommandName
 }

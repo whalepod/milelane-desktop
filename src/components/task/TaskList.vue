@@ -53,12 +53,8 @@ export default {
     padding: 12px;
     font-size: 13px;
   }
-  .task-list-empty-message > code {
-    display: inline-block;
-    padding: 0 6px;
-    margin: 0 2px;
-    font-size: inherit;
-    background-color: #f1f1f1;
-    border-radius: 3px;
-  }
+  /*
+    .task-list-empty-message > code
+    inherits from base.css `code` styling.
+  */
 </style>

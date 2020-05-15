@@ -66,6 +66,31 @@
       凡例: <code>/focus on 517</code>
     </p>
     <h3>
+      <code>/schedule</code>コマンド
+    </h3>
+    <p>
+      使い方: <code>/schedule [task id]</code><br>
+      説明:<br>
+      タスクに期日を設定します。<br>
+      凡例: <code>/schedule 517</code>
+    </p>
+    <p>
+      コマンドを実行すると期日を聞かれるため、日時を入力してください。<br>
+      期日を入力するときの推奨のフォーマットには、以下のようなものがあります。
+    </p>
+    <ul>
+      <li>日付のみ: <code>2006-01-02</code> ※ <code>00:00:00</code> に時刻はセットされます。</li>
+      <li>時間あり: <code>2006-01-02 15:04:05</code></li>
+    </ul>
+    <p>
+      なお、この処理の実装は現在のところMoment.jsに依存しています。<br>
+      そのため、その他の対応しているフォーマットは、
+      <a @click="openUrl('https://momentjs.com/guides/#/parsing/')">
+        Moment.jsの公式仕様
+      </a>
+      をご覧ください。
+    </p>
+    <h3>
       <code>/unfocus</code>コマンド
     </h3>
     <p>
@@ -78,8 +103,21 @@
     </h3>
     <p>
       使い方: <code>/help</code><br>
-      説明: 現在表示されいるヘルプモーダルを表示します。<br>
+      説明: 現在表示されているヘルプモーダルを表示します。<br>
       凡例: <code>/help</code>
     </p>
   </section>
 </template>
+<script>
+// TODO: enable open even if not in electron.
+// With importing shell, not working when `yarn serve`
+import { shell } from 'electron'
+
+export default {
+  methods: {
+    openUrl (url) {
+      shell.openExternal(url)
+    }
+  }
+}
+</script>
