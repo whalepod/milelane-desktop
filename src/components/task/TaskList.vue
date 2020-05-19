@@ -12,7 +12,7 @@
       class="task-list"
     >
       <li
-        v-for="task in freshTasks"
+        v-for="task in tasks"
         :key="task.id"
       >
         <task-item v-bind="task" />
@@ -22,7 +22,6 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import moment from 'moment'
 import TaskItem from '@/components/task/TaskItem'
 
 export default {
@@ -30,13 +29,7 @@ export default {
   computed: {
     ...mapGetters('tasks', ['tasks']),
     hasTasks () {
-      return this.freshTasks.length !== 0
-    },
-    freshTasks () {
-      if (!(this.tasks instanceof Array) || this.tasks.length === 0) { return [] }
-      return this.tasks.filter(task =>
-        task.completed_at === '' || moment(task.completed_at).add(1, 'day').isAfter(moment())
-      )
+      return (this.tasks instanceof Array) && this.tasks.length !== 0
     }
   }
 }
