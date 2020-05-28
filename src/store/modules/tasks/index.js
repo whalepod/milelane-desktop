@@ -1,6 +1,7 @@
 import mutations from '@/store/modules/tasks/mutations'
 import actions from '@/store/modules/tasks/actions'
 import getters from '@/store/modules/tasks/getters'
+import filter from '@/store/modules/tasks/filter'
 
 const state = {
   isInitialized: false,
@@ -24,5 +25,8 @@ export default {
   state,
   mutations,
   actions,
-  getters
+  getters,
+  modules: {
+    filter
+  }
 }

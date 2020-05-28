@@ -20,17 +20,28 @@ const execEach = (treeableTasks, func, payload) => {
  * If the filter removes parent task,
  * its child tasks are simaltaneously removed.
  * @param {*} treeableTasks
- * @param {*} func
- * @param {*} payload
+ * @param {*} func is executed on each task to judge filter or not.
+ * @param {*} payload is arguments for the function.
+ * @param { Boolean } strict
  * @return {*} treeableTasks
  */
-const filterEach = (treeableTasks, func, payload) => {
-  treeableTasks = treeableTasks.filter((task) => func(task, payload))
+const filterEach = (treeableTasks, func, payload, strict) => {
+  if (strict) {
+    treeableTasks = treeableTasks.filter((task) => func(task, payload))
+  }
   treeableTasks.forEach((task) => {
     if (task.children && task.children.length !== 0) {
-      task.children = filterEach(task.children, func, payload)
+      task.children = filterEach(task.children, func, payload, strict)
     }
   })
+  if (!strict) {
+    treeableTasks = treeableTasks.filter((task) => {
+      if (task.children && task.children.length !== 0) {
+        return true
+      }
+      return func(task, payload)
+    })
+  }
   return treeableTasks
 }
 

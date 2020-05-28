@@ -27,7 +27,10 @@ import TaskItem from '@/components/task/TaskItem'
 export default {
   components: { TaskItem },
   computed: {
-    ...mapGetters('tasks', ['tasks']),
+    ...mapGetters('tasks', ['filteredTasks']),
+    tasks () {
+      return this.filteredTasks
+    },
     hasTasks () {
       return (this.tasks instanceof Array) && this.tasks.length !== 0
     }

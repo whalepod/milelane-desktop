@@ -11,6 +11,7 @@
       <task-item-dates
         v-if="shouldShowDates"
         :expires-at="expiresAt"
+        :completed-at="completedAt"
       />
       <!--
         ID Section
@@ -185,7 +186,7 @@ export default {
       return this.type === 'lane'
     },
     shouldShowDates () {
-      return [this.hasExpiresAt].some(flag => flag)
+      return [this.hasExpiresAt, this.hasCompletedAt].some(flag => flag)
     }
   },
   mounted () {
