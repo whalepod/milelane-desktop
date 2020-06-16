@@ -10,6 +10,7 @@ import './assets/css/layout.css'
 moment.tz.setDefault('Asia/Tokyo')
 
 Vue.config.productionTip = false
+Vue.use(require('vue-shortkey'))
 
 new Vue({
   router,
