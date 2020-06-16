@@ -1,5 +1,9 @@
 <template>
-  <section class="root">
+  <section
+    v-shortkey="['meta', 'i']"
+    class="root"
+    @shortkey="focusInputField"
+  >
     <the-header />
     <task-list />
     <the-input />
@@ -34,6 +38,9 @@ export default {
     ...mapActions('modal', ['close']),
     handleLoadTasks () {
       this.initTasks()
+    },
+    focusInputField () {
+      document.querySelector('input').focus()
     }
   }
 }
