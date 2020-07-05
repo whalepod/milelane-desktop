@@ -15,6 +15,37 @@ const execEach = (treeableTasks, func, payload) => {
 }
 
 /**
+ * filterEach filters treeableTask by function(func) recursively.
+ * payload is arguments for the function.
+ * If the filter removes parent task,
+ * its child tasks are simaltaneously removed.
+ * @param {*} treeableTasks
+ * @param {*} func is executed on each task to judge filter or not.
+ * @param {*} payload is arguments for the function.
+ * @param { Boolean } strict
+ * @return {*} treeableTasks
+ */
+const filterEach = (treeableTasks, func, payload, strict) => {
+  if (strict) {
+    treeableTasks = treeableTasks.filter((task) => func(task, payload))
+  }
+  treeableTasks.forEach((task) => {
+    if (task.children && task.children.length !== 0) {
+      task.children = filterEach(task.children, func, payload, strict)
+    }
+  })
+  if (!strict) {
+    treeableTasks = treeableTasks.filter((task) => {
+      if (task.children && task.children.length !== 0) {
+        return true
+      }
+      return func(task, payload)
+    })
+  }
+  return treeableTasks
+}
+
+/**
  * findById returns treeableTask by id.
  * @param {*} treeableTasks
  * @param { Number } id
@@ -104,6 +135,7 @@ const cameledTask = (task) => {
 
 export default {
   execEach,
+  filterEach,
   findById,
   reduceById,
   cameledTasks,

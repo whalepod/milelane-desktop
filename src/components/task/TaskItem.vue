@@ -11,6 +11,7 @@
       <task-item-dates
         v-if="shouldShowDates"
         :expires-at="expiresAt"
+        :completed-at="completedAt"
       />
       <!--
         ID Section
@@ -85,7 +86,7 @@
       class="task-children"
     >
       <li
-        v-for="child in freshChildren"
+        v-for="child in children"
         :key="child.id"
       >
         <task-item v-bind="child" />
@@ -95,7 +96,6 @@
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import moment from 'moment'
 import keyCode from '@/config/keyCode.js'
 import TaskItemDates from '@/components/task/TaskItemDates'
 
@@ -157,17 +157,11 @@ export default {
   },
   computed: {
     ...mapGetters('tasks', ['selectedTaskId', 'editingTaskId']),
-    freshChildren () {
-      if (!(this.children instanceof Array) || this.children.length === 0) { return [] }
-      return this.children.filter(child =>
-        child.completedAt === '' || moment(child.completedAt).add(1, 'day').isAfter(moment())
-      )
-    },
     canCompleteTask () {
       return this.type === 'task' && !this.hasCompletedAt && !this.hasErrors
     },
     hasChildren () {
-      return this.freshChildren.length !== 0
+      return (this.children instanceof Array) && this.children.length !== 0
     },
     hasCompletedAt () {
       return this.completedAt !== ''
@@ -192,7 +186,7 @@ export default {
       return this.type === 'lane'
     },
     shouldShowDates () {
-      return [this.hasExpiresAt].some(flag => flag)
+      return [this.hasExpiresAt, this.hasCompletedAt].some(flag => flag)
     }
   },
   mounted () {

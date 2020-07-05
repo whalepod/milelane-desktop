@@ -6,6 +6,7 @@
   >
     <the-header />
     <task-list />
+    <the-filter />
     <the-input />
     <the-schedule />
     <the-modal />
@@ -15,6 +16,7 @@
 <script>
 import { mapActions } from 'vuex'
 import TheHeader from '@/components/TheHeader'
+import TheFilter from '@/components/TheFilter'
 import TheModal from '@/components/TheModal'
 import TheInput from '@/components/TheInput'
 import TheSchedule from '@/components/TheSchedule'
@@ -23,6 +25,7 @@ import TaskList from '@/components/task/TaskList'
 export default {
   components: {
     TheHeader,
+    TheFilter,
     TheModal,
     TheInput,
     TheSchedule,
@@ -50,6 +53,7 @@ export default {
   .root {
     height: 100vh;
     margin: 0;
+    padding-top: 56px;
     position: relative;
   }
 </style>
