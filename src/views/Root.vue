@@ -39,6 +39,7 @@ export default {
   mounted () {
     document.addEventListener('click', (e) => {
       this.leaveEdit()
+      e.preventDefault()
     })
   },
   methods: {
