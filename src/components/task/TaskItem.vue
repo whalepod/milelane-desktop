@@ -7,6 +7,7 @@
         'selected': isSelected
       }"
       @click="select({ id })"
+      @click.stop
     >
       <task-item-dates
         v-if="shouldShowDates"
@@ -50,7 +51,6 @@
         @keypress="enableSubmitEdit"
         @keyup.esc="handleLeaveEditing"
         @keyup.enter="handleSubmitEdit"
-        @click.stop
       >
       <!--
         Action & Status Section
