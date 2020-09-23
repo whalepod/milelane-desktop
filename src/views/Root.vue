@@ -36,8 +36,13 @@ export default {
     this.close()
     this.initTasks()
   },
+  mounted () {
+    document.addEventListener('click', (e) => {
+      this.leaveEdit()
+    })
+  },
   methods: {
-    ...mapActions('tasks', ['initTasks']),
+    ...mapActions('tasks', ['initTasks', 'leaveEdit']),
     ...mapActions('modal', ['close']),
     handleLoadTasks () {
       this.initTasks()
