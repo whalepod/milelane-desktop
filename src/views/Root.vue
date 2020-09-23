@@ -3,6 +3,7 @@
     v-shortkey="['meta', 'i']"
     class="root"
     @shortkey="focusInputField"
+    @click="leaveEdit"
   >
     <the-header />
     <task-list />
@@ -35,12 +36,6 @@ export default {
     // initialize modal.
     this.close()
     this.initTasks()
-  },
-  mounted () {
-    document.addEventListener('click', (e) => {
-      this.leaveEdit()
-      e.preventDefault()
-    })
   },
   methods: {
     ...mapActions('tasks', ['initTasks', 'leaveEdit']),

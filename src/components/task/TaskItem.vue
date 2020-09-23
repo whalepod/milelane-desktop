@@ -50,6 +50,7 @@
         @keypress="enableSubmitEdit"
         @keyup.esc="handleLeaveEditing"
         @keyup.enter="handleSubmitEdit"
+        @click.stop
       >
       <!--
         Action & Status Section
