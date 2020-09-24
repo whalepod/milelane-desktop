@@ -3,6 +3,7 @@
     v-shortkey="['meta', 'i']"
     class="root"
     @shortkey="focusInputField"
+    @click="leaveEdit"
   >
     <the-header />
     <task-list />
@@ -37,7 +38,7 @@ export default {
     this.initTasks()
   },
   methods: {
-    ...mapActions('tasks', ['initTasks']),
+    ...mapActions('tasks', ['initTasks', 'leaveEdit']),
     ...mapActions('modal', ['close']),
     handleLoadTasks () {
       this.initTasks()

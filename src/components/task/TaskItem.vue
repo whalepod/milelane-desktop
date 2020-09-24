@@ -7,6 +7,7 @@
         'selected': isSelected
       }"
       @click="select({ id })"
+      @click.stop
     >
       <task-item-dates
         v-if="shouldShowDates"
