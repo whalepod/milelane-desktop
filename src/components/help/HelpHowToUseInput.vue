@@ -58,6 +58,16 @@
       凡例: <code>/lanize 515</code>
     </p>
     <h3>
+      <code>/delanize</code>コマンド
+    </h3>
+    <p>
+      使い方: <code>/delanize [task id]</code><br>
+      説明:<br>
+      既に作成してあるタスクを<code>lane</code>タイプから<code>task</code>タイプに変更します。<br>
+      なお、<strong>現在、この操作は不可逆</strong>です。<br>
+      凡例: <code>/delanize 515</code>
+    </p>
+    <h3>
       <code>/focus</code>コマンド
     </h3>
     <p>
