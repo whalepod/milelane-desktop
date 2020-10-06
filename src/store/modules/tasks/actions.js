@@ -54,6 +54,15 @@ export default {
       commit(types.FAILURE_LANIZE_TASK, e)
     }
   },
+  async delanize ({ commit }, { id }) {
+    commit(types.REQUEST_DELANIZE_TASK, { id })
+    try {
+      await API.delanize(id)
+      commit(types.SUCCESS_DELANIZE_TASK)
+    } catch (e) {
+      commit(types.FAILURE_DELANIZE_TASK, e)
+    }
+  },
   async moveToChild ({ commit }, { taskId, parentId }) {
     commit(types.REQUEST_MOVE_TASK_TO_CHILD, { taskId, parentId })
     try {
