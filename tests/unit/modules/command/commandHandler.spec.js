@@ -2,19 +2,19 @@ import commandHandler from '@/modules/command/commandHandler.js'
 
 describe('modules/command/commandHandler.js', () => {
   describe('getCommandName()', () => {
-    it('successfully call command `unfocus`', () => {
+    it('successfully returns `unfocus`', () => {
       expect(commandHandler.getCommandName('/unfocus')).toBe('unfocus')
     })
-    it('successfully call command `help`', () => {
+    it('successfully returns `help`', () => {
       expect(commandHandler.getCommandName('/help')).toBe('help')
     })
-    it('successfully call reserved command `/add`', () => {
+    it('successfully returns `/add`', () => {
       expect(commandHandler.getCommandName('/add test')).toBe('add')
     })
-    it('failed to call no slash command `add`', () => {
+    it('returns false if not start with slash', () => {
       expect(commandHandler.getCommandName('add test')).toBe(false)
     })
-    it('failed to call reserved command `/faile`', () => {
+    it('returns false if matched command name is not reserved word', () => {
       expect(commandHandler.getCommandName('/fail test')).toBe(false)
     })
   })
