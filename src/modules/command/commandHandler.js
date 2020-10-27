@@ -19,6 +19,9 @@ const execute = async (text) => {
     case 'lanize':
       await callLanize(text)
       break
+    case 'delanize':
+      await callDelanize(text)
+      break
     case 'schedule':
       callSchedule(text)
       break
@@ -129,6 +132,21 @@ const callLanize = async (text) => {
   store.dispatch('tasks/lanize', { id: targetId })
 }
 
+const callDelanize = async (text) => {
+  // この正規表現は `/delanize 1` のような正規表現にヒットする
+  const matchedObject = text.match(/^\/(.*?)\s(\d+)$/)
+
+  // WANTFIX: getCommandNameに成功するが、上記正規表現に合致しなかった場合、
+  // 以下の条件式ではエラーになってしまう。
+  if (matchedObject.length !== 3) {
+    return false
+  }
+
+  const targetId = parseInt(matchedObject[2])
+
+  store.dispatch('tasks/delanize', { id: targetId })
+}
+
 const callFocus = (text) => {
   // この正規表現は、 `/focus on 1` のような正規表現にヒットする
   const matchedObject = text.match(/^\/(.*?)\son\s(\d+)$/)
@@ -170,7 +188,7 @@ const getCommandName = (text) => {
   const commandName = matchedObject[1]
 
   // 本来存在しないコマンドの場合も false を返す
-  const reservedCommandNames = ['add', 'move', 'lanize', 'schedule', 'focus', 'unfocus']
+  const reservedCommandNames = ['add', 'move', 'lanize', 'delanize', 'schedule', 'focus', 'unfocus']
   if (!reservedCommandNames.includes(commandName)) {
     return false
   }

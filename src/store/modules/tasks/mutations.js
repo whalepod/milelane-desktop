@@ -135,6 +135,36 @@ export default {
     }, state.submittingId)
     state.submittingId = null
   },
+  [types.REQUEST_DELANIZE_TASK] (state, { id }) {
+    state.isSubmitting = true
+    state.submittingId = id
+    // Find lanize target and update type from task to lane.
+    treeHandler.execEach(state.tasks, (task, submittingId) => {
+      if (task.id === submittingId) {
+        task.type = 'task'
+      }
+    }, id)
+  },
+  [types.SUCCESS_DELANIZE_TASK] (state) {
+    state.isSubmitting = false
+    state.submittingId = null
+  },
+  [types.FAILURE_DELANIZE_TASK] (state, error) {
+    state.isSubmitting = false
+    if (error) {
+      state.errors.push(error)
+    }
+    // For each task in tree,
+    // insert error if it's the task which failed submitting.
+    treeHandler.execEach(state.tasks, (task, submittingId) => {
+      if (task.id === submittingId) {
+        task.type = 'lane'
+        task.errors = task.errors ? task.errors : []
+        task.errors.push({ message: 'Failed delanize task.' })
+      }
+    }, state.submittingId)
+    state.submittingId = null
+  },
   [types.REQUEST_MOVE_TASK_TO_CHILD] (state, { taskId, parentId }) {
     state.isSubmitting = true
     // Find target task,

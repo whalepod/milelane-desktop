@@ -5,6 +5,7 @@ const get = (id) => client().get(`/tasks/${id}`)
 const create = (title) => client().post('/tasks', { title })
 const complete = (id) => client().post(`/tasks/${id}/complete`)
 const lanize = (id) => client().post(`/tasks/${id}/lanize`)
+const delanize = (id) => client().post(`/tasks/${id}/delanize`)
 const moveToChild = (taskId, parentId) => client().post(`/tasks/${taskId}/move-to-child/${parentId}`)
 const moveToRoot = (taskId) => client().post(`/tasks/${taskId}/move-to-root`)
 /**
@@ -31,6 +32,7 @@ export default {
   create,
   complete,
   lanize,
+  delanize,
   moveToChild,
   moveToRoot,
   updateTerm,
