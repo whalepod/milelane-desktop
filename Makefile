@@ -9,6 +9,6 @@ build: ## build files for distribution
 	yarn build
 
 sync: ## sync dist directory with s3
-	aws s3 sync ./dist s3://app.milelane.co/ --include "*" --acl public-read --cache-control "max-age=3600" --profile whalepod-milelane-s3
+	aws s3 sync ./dist s3://app.milelane.co/ --delete --include "*" --acl public-read --cache-control "max-age=3600" --profile whalepod-milelane-s3
 
 deploy: build sync ## deploy
