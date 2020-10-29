@@ -94,11 +94,7 @@
     </ul>
     <p>
       なお、この処理の実装は現在のところMoment.jsに依存しています。<br>
-      そのため、その他の対応しているフォーマットは、
-      <a @click="openUrl('https://momentjs.com/guides/#/parsing/')">
-        Moment.jsの公式仕様
-      </a>
-      をご覧ください。
+      そのため、その他の対応しているフォーマットは、Moment.jsの公式仕様をご覧ください。
     </p>
     <h3>
       <code>/unfocus</code>コマンド
@@ -118,16 +114,3 @@
     </p>
   </section>
 </template>
-<script>
-// TODO: enable open even if not in electron.
-// With importing shell, not working when `yarn serve`
-import { shell } from 'electron'
-
-export default {
-  methods: {
-    openUrl (url) {
-      shell.openExternal(url)
-    }
-  }
-}
-</script>
